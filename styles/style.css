@@ -1,4 +1,21 @@
 body {
-  background: white;
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 0.1em solid #ddd;
+  padding-right: 2em;
+}
+
+tr:nth-child(even){
+  background-color: #ddd;
+}
+
+th {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: left;
+  background-color: lightblue;
 }
