@@ -19,3 +19,7 @@ th {
   text-align: left;
   background-color: lightblue;
 }
+
+#labels text {
+  font-family: sans-serif;
+}
