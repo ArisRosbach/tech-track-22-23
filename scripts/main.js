@@ -18,7 +18,7 @@ function getData() {
 
 				console.log(data);
 
-				const chartWidth = 1000
+				const chartWidth = 250
 				const chartHeight = 1000
 
 				const xScale = d3.scaleLinear()
@@ -37,8 +37,7 @@ function getData() {
 					.attr('height', 20) //yScale.bandwith())
 					.attr('width', d => xScale(d.Duur))
 					.attr('y', d => yScale(d.Naam))
-					.classed('animate __animated animate__headShake', 1)
-				//, () => Math.random() > 0.5
+
 				d3.select('#labels')
 					.selectAll('text')
 					.data(data)
