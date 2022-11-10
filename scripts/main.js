@@ -16,39 +16,59 @@ function getData() {
 		.then(data => {
 
 
-				console.log(data);
+			console.log(data);
 
-				const chartWidth = 250
-				const chartHeight = 1000
+			const chartWidth = 250
+			const chartHeight = 1000
 
-				const xScale = d3.scaleLinear()
-					.domain([0, d3.max(data, d => d.Duur)])
-					.range([0, chartWidth]);
+			const xScale = d3.scaleLinear()
+				.domain([0, d3.max(data, d => d.Duur)])
+				.range([0, chartWidth]);
 
-				const yScale = d3.scaleBand()
-					.domain(d3.map(data, d => d.Naam))
-					.range([0, chartHeight])
-					.paddingInner(0.05);
+			const yScale = d3.scaleBand()
+				.domain(d3.map(data, d => d.Naam))
+				.range([0, chartHeight])
+				.paddingInner(0.05);
 
-				d3.select('#bars')
-					.selectAll('rect')
-					.data(data)
-					.join('rect')
-					.attr('height', 20) //yScale.bandwith())
-					.attr('width', d => xScale(d.Duur))
-					.attr('y', d => yScale(d.Naam))
+			d3.select('#bars')
+				.selectAll('rect')
+				.data(data)
+				.join('rect')
+				.attr('height', 20) //yScale.bandwith())
+				.attr('width', d => xScale(d.Duur))
+				.attr('y', d => yScale(d.Naam))
+				.style("fill", (d) => {
+					if (d.GemiddeldeWachttijd.toLowerCase() == "zeer kort") {
+						return "ForestGreen";
+					} else if (d.GemiddeldeWachttijd.toLowerCase() == "kort") {
+						return "DarkSeaGreen";
+					} else if (d.GemiddeldeWachttijd.toLowerCase() == "gemiddeld") {
+						return "Khaki";
+					} else if (d.GemiddeldeWachttijd.toLowerCase() == "lang") {
+						return "Coral";
+					} else if (d.GemiddeldeWachttijd.toLowerCase() == "zeer lang") {
+						return "FireBrick";
+					}
+				});
 
-				d3.select('#labels')
-					.selectAll('text')
-					.data(data)
-					.join('text')
-					.attr('y', d => yScale(d.Naam) + 15)
-					.text(d => d.Naam);
-				})
+			d3.select('#labels')
+				.selectAll('text')
+				.data(data)
+				.join('text')
+				.attr('y', d => yScale(d.Naam) + 15)
+				.text(d => d.Naam)
+				.style("fill", (d) => {
+					if (d.Park == "Disneyland Park") {
+						return "DeepPink";
+					} else {
+						return "CornflowerBlue";
+					}
+				});
+		})
 
-			}
+}
 
-			getData();
+getData();
 
 // Aardbeving dataset met d3 in barchart weergeven
 ///////////////////////////////////////
