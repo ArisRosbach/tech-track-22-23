@@ -6,157 +6,101 @@ import * as d3 from 'd3';
 
 console.log('Hello, world!');
 
-// Duur van disneyland attracties weergeven in barchart
-///////////////////////////////////////
 function getData() {
-	console.log('Grabbing new userdata...');
-
-	fetch('https://opensheet.elk.sh/1JTKk5zpB87MaeZzYJUnTSX2IsuHyLa8JF_l79Svn9P4/DisneylandParis')
-		.then(res => res.json())
-		.then(data => {
-
-
-			console.log(data);
-
-			const chartWidth = 250
-			const chartHeight = 1000
-
-			const xScale = d3.scaleLinear()
-				.domain([0, d3.max(data, d => d.Duur)])
-				.range([0, chartWidth]);
-
-			const yScale = d3.scaleBand()
-				.domain(d3.map(data, d => d.Naam))
-				.range([0, chartHeight])
-				.paddingInner(0.05);
-
-			d3.select('#bars')
-				.selectAll('rect')
-				.data(data)
-				.join('rect')
-				.attr('height', 20) //yScale.bandwith())
-				.attr('width', d => xScale(d.Duur))
-				.attr('y', d => yScale(d.Naam))
-				.style("fill", (d) => {
-					if (d.GemiddeldeWachttijd.toLowerCase() == "zeer kort") {
-						return "ForestGreen";
-					} else if (d.GemiddeldeWachttijd.toLowerCase() == "kort") {
-						return "DarkSeaGreen";
-					} else if (d.GemiddeldeWachttijd.toLowerCase() == "gemiddeld") {
-						return "Khaki";
-					} else if (d.GemiddeldeWachttijd.toLowerCase() == "lang") {
-						return "Coral";
-					} else if (d.GemiddeldeWachttijd.toLowerCase() == "zeer lang") {
-						return "FireBrick";
-					}
-				});
-
-			d3.select('#labels')
-				.selectAll('text')
-				.data(data)
-				.join('text')
-				.attr('y', d => yScale(d.Naam) + 15)
-				.text(d => d.Naam)
-				.style("fill", (d) => {
-					if (d.Park == "Disneyland Park") {
-						return "DeepPink";
-					} else {
-						return "CornflowerBlue";
-					}
-				});
+	console.log("Grabbing new userdata...");
+  
+	fetch(
+	  "https://opensheet.elk.sh/1JTKk5zpB87MaeZzYJUnTSX2IsuHyLa8JF_l79Svn9P4/DisneylandParis"
+	)
+	  .then((res) => res.json())
+	  .then((data) => {
+		// console.log(data);
+  
+		// berekent het aantal attracties in elk Gebied
+		console.log(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
+	  
+		// berekent het aantal attracties in elk Gebied
+		makeGraph1(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()))
+	  });
+  }
+  
+  getData();
+  
+  function makeGraph1(disneyData) {
+	
+	console.log(disneyData);
+	// Code van een ander maar dit maakt een treemap
+	// Bron: https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
+	/////////////////////////////////////////////////////////
+	
+	// sorteert de getallen in de array dankzij de [1]
+	const data = disneyData.sort((a, b) => b[1] - a[1]);
+	// telt het totaal van alle getallen in de verschillende arrays
+	const sum = data.reduce((s, i) => {
+	  return s + i[1]
+	}, 0);
+	
+	console.log(data);
+	console.log(sum)
+	
+	const svg = d3.select("svg");
+	const width = parseInt(svg.attr("width"));
+	const height = parseInt(svg.attr("height"));
+	const unit = (width * height) / sum;
+	const bounds = { top: 0, left: 0, right: width, bottom: height };
+  
+	let weightLeft = sum;
+	let x, y, w, h;
+  
+	// loopt door alle array's 
+	data.forEach((d) => {
+	  console.log(d);
+	  const hSpace = bounds.right - bounds.left;
+	  const vSpace = bounds.bottom - bounds.top;
+	  const area = d[1] / unit;
+	  x = bounds.left;
+	  y = bounds.top;
+	  if (hSpace > vSpace) {
+		w = (d[1] / weightLeft) * hSpace;
+		h = vSpace;
+		bounds.left = x + w;
+	  } else {
+		w = hSpace;
+		h = (d[1] / weightLeft) * vSpace;
+		bounds.top = y + h;
+	  }
+	  weightLeft -= d[1];
+	  
+	  // maakt voor elke item een rect aan in de svg
+	  d3.select("svg")
+		.append("rect")
+		.on("click", e => {
+		  handleClick(d)
 		})
-
-}
-
-getData();
-
-// Aardbeving dataset met d3 in barchart weergeven
-///////////////////////////////////////
-// const dataSet = [{"Jaar":1991,"Aantal":1},{"Jaar":1992,"Aantal":0},{"Jaar":1993,"Aantal":4},{"Jaar":1994,"Aantal":7},{"Jaar":1995,"Aantal":4},{"Jaar":1996,"Aantal":8},{"Jaar":1997,"Aantal":7},{"Jaar":1998,"Aantal":6},{"Jaar":1999,"Aantal":5},{"Jaar":2000,"Aantal":8},{"Jaar":2001,"Aantal":2},{"Jaar":2002,"Aantal":4},{"Jaar":2003,"Aantal":14},{"Jaar":2004,"Aantal":6},{"Jaar":2005,"Aantal":11},{"Jaar":2006,"Aantal":21},{"Jaar":2007,"Aantal":12},{"Jaar":2008,"Aantal":11},{"Jaar":2009,"Aantal":18},{"Jaar":2010,"Aantal":16},{"Jaar":2011,"Aantal":29},{"Jaar":2012,"Aantal":20},{"Jaar":2013,"Aantal":30},{"Jaar":2014,"Aantal":20},{"Jaar":2015,"Aantal":23},{"Jaar":2016,"Aantal":13},{"Jaar":2017,"Aantal":18},{"Jaar":2018,"Aantal":15},{"Jaar":2019,"Aantal":11},{"Jaar":2020,"Aantal":17}]
-
-// const chartWidth = 700
-// const chartHeight = 800
-
-// const xScale = d3.scaleLinear()
-// 	.domain([0, d3.max(dataSet, d => d.Aantal)])
-// 	.range([0, chartWidth]);
-
-// const yScale = d3.scaleBand()
-// 	.domain(d3.map(dataSet, d => d.Jaar))
-// 	.range([0, chartHeight])
-//   .paddingInner(0.05);
-
-// d3.select('#bars')
-//   .selectAll('rect')
-//   .data(dataSet)
-//   .join('rect')
-//   .attr('height', 25) //yScale.bandwith())
-//   .attr('width', d => xScale(d.Aantal))
-//   .attr('y', d => yScale(d.Jaar))
-//   .classed('animate __animated animate__headShake',1)
-// //, () => Math.random() > 0.5
-// d3.select('#labels')
-//   .selectAll('text')
-//   .data(dataSet)
-//   .join('text')
-//   .attr('y', d => yScale(d.Jaar) + 15)
-//   .text(d => d.Jaar);
-
-
-// Disneypark data weergeven in tabel
-///////////////////////////////////////
-// function getData() {
-// 	console.log('Grabbing new userdata...');
-
-// 	fetch('https://opensheet.elk.sh/1JTKk5zpB87MaeZzYJUnTSX2IsuHyLa8JF_l79Svn9P4/DisneylandParis')
-// 		.then(res => res.json())
-// 		.then(data => {
-
-// 			console.log(data);
-
-// 			function generateTable() {
-
-// 				// There are a couple steps we need to take, first, we need to select the table, table heading and table body and save them to a variable
-
-// 				let table = document.querySelector('table');
-// 				let tHeading = document.querySelector('thead tr');
-// 				let tBody = document.querySelector('tbody');
-
-// 				// First, we'll generate a row of table headings, we need to grab the keys from all the objects, not the values! We can achieve this by using the Object.keys(data[0]) method of the native Object. 
-// 				// It returns an array of all keys an object contains. We can loop over that array using forEach(); It's up to you to find out how then to generate the corresponding HTML.
-
-// 				Object.keys(data[0]).forEach(key => {
-
-// 					let newElement = document.createElement('th');
-// 					newElement.textContent = key;
-// 					tHeading.appendChild(newElement);
-
-// 				})
-
-// 				// Your HTML should now display the headers in a <th></th> structure.
-
-// 				//After this, we can loop over the amount of objects inside of the array (looping over an array of objects can be useful here, for...of). 
-// 				// For every entry (forEach()) we want to create a new row (<tr>/tr>) and append three datapoints (<td>) inside of it containing the id, name and kaas.
-
-// 				data.forEach(obj => {
-
-// 					let tr = document.createElement('tr');
-// 					tBody.appendChild(tr);
-
-// 					for (const [key, value] of Object.entries(obj)) {
-
-// 						let td = document.createElement('td');
-// 						td.textContent = value;
-// 						tr.appendChild(td);
-// 					}
-// 				})
-
-// 			}
-
-// 			generateTable();
-
-// 		})
-
-// }
-
-// getData();
+		.attr("x", x)
+		.attr("y", y)
+		.attr("width", w)
+		.attr("height", h)
+		.style("stroke", "white")
+		.style("stroke-width", 10)
+		.style("fill", "url(#a)");
+		
+	  // maakt voor elke item een text aan in de svg
+	  d3.select("svg")
+		.append("text")
+		.text(d[0])
+		.attr("x", x + w / 2)
+		.attr("y", y + h / 2)
+		.attr("text-anchor", "middle")
+		.attr("alignment-baseline", "middle")
+		.style("fill", "Black")
+		.style("font-size", "20px")
+		.style("font-weight", "bold");
+	});
+  }
+  
+  // functie die een tooltip laat verschijnen wanneer je op een item klikt
+  function handleClick(data) {
+	document.querySelector('.tooltip').innerHTML = data[0]
+	console.log(data);
+  }

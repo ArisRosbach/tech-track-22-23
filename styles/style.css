@@ -4,27 +4,12 @@ body {
   width: 100%;
 }
 
-img {
-  display: block;
-  margin: 2em;
-}
-
-td, th {
-  border: 0.1em solid #ddd;
-  padding-right: 2em;
-}
-
-tr:nth-child(even){
-  background-color: #ddd;
-}
-
-th {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  text-align: left;
-  background-color: lightblue;
-}
-
-#labels text {
-  font-family: sans-serif;
+.tooltip {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: rebeccapurple;
+  color: white;
+  padding: 0.5em;
+  opacity: 0;
 }
