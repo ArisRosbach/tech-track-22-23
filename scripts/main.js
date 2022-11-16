@@ -6,9 +6,13 @@ import * as d3 from 'd3';
 
 console.log('Hello, world!');
 
+// Functie die mijn API data ophaalt
+/////////////////////////////////////////////////////////
 function getData() {
 	console.log("Grabbing new userdata...");
 
+	// Met fetch haal ik de mijn API op, dit wordt omgezet naar een response object.
+	// Met .json() zet ik de data om in een JSON tekst bestand
 	fetch(
 			"https://opensheet.elk.sh/1JTKk5zpB87MaeZzYJUnTSX2IsuHyLa8JF_l79Svn9P4/DisneylandParis"
 		)
@@ -16,15 +20,18 @@ function getData() {
 		.then((data) => {
 			// console.log(data);
 
-			// berekent het aantal attracties in elk Gebied
-			console.log(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
+			// Berekent het aantal attracties in elk Gebied
+			// console.log(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
 
-			// berekent het aantal attracties in elk Gebied
+			// Berekent het aantal attracties in elk Gebied
+			/////////////////////////////////////////////////////////
 			makeGraph1(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
 
 			let aantalFantasyland = [];
 			let aantalRest = 0;
-			// array maken met aantal attracties fantasyland
+			// Maakt een array met aantal attracties fantasyland
+			// Loopt door alle items, wanneer overeenkomt met "fantasyland" return array met Naam en Duur
+			/////////////////////////////////////////////////////////
 			data.forEach((item) => {
 				if (item.Gebied.toLowerCase() == "fantasyland") {
 					aantalFantasyland.push([item.Naam, item.Duur]);
@@ -32,17 +39,22 @@ function getData() {
 					aantalRest++;
 				}
 			});
+
 			console.log(aantalFantasyland);
 		});
 }
 
 getData();
 
+// Functie die zorgt dat ik een treemap kan maken van Gebieden 
+// disneyData is de data die hierboven wordt gedefinieerd in makeGraph1
+/////////////////////////////////////////////////////////
 function makeGraph1(disneyData) {
 
 	console.log(disneyData);
-	// Code van een ander maar dit maakt een treemap
-	// Bron: https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
+
+	// Code die een treemap maakt:
+	// Bron -> https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
 	/////////////////////////////////////////////////////////
 
 	// sorteert de getallen in de array dankzij de [1]
@@ -52,9 +64,11 @@ function makeGraph1(disneyData) {
 		return s + i[1]
 	}, 0);
 
+	// Checken of data en sum kloppen
 	console.log(data);
 	console.log(sum)
 
+	// constanten
 	const svg = d3.select("svg");
 	const width = parseInt(svg.attr("width"));
 	const height = parseInt(svg.attr("height"));
@@ -69,7 +83,8 @@ function makeGraph1(disneyData) {
 	let weightLeft = sum;
 	let x, y, w, h;
 
-	// loopt door alle array's 
+	// Loopt door alle array's met data om zo te berekenen hoe de treemap eruit moet komen te zien
+	/////////////////////////////////////////////////////////
 	data.forEach((d) => {
 		console.log(d);
 		const hSpace = bounds.right - bounds.left;
@@ -88,9 +103,12 @@ function makeGraph1(disneyData) {
 		}
 		weightLeft -= d[1];
 
-		// maakt voor elke item een rect aan in de svg
+		// Maakt voor elke item een rectangle aan in de svg
+		/////////////////////////////////////////////////////////
 		d3.select("svg")
 			.append("rect")
+			// Wanneer wordt geklikt op een rectangle wordt functie handleClick uitgevoerd
+			// Geeft d mee wat staat voor de data die hoort bij geklikte rect
 			.on("click", e => {
 				handleClick(d)
 			})
@@ -98,30 +116,37 @@ function makeGraph1(disneyData) {
 			.attr("y", y)
 			.attr("width", w)
 			.attr("height", h)
+			// Styling voor rect element
 			.style("stroke", "white")
 			.style("stroke-width", 10)
 			.style("fill", "url(#a)")
 
 
-		// maakt voor elke item een text aan in de svg
+		// Maakt voor elke item een text aan in de svg
+		/////////////////////////////////////////////////////////
 		d3.select("svg")
 			.append("text")
+			// Geeft mee dat de text het 1e item uit de array moet zijn
 			.text(d[0])
 			.attr("x", x + w / 2)
 			.attr("y", y + h / 2)
 			.attr("text-anchor", "middle")
 			.attr("alignment-baseline", "middle")
+			// Styling voor text element
 			.style("fill", "Black")
 			.style("font-size", "0.8em")
 			.style("font-weight", "bold");
 	});
 }
 
-// functie die een tooltip laat verschijnen wanneer je op een item klikt
+// Functie die een tooltip laat verschijnen wanneer je op een item klikt
+/////////////////////////////////////////////////////////
 function handleClick(data) {
+	// Maak element met de class .tooltip aan en geef 1e item uit data mee
 	document.querySelector('.tooltip').innerHTML = data[0]
 	console.log(data);
 
+	// Maak opacity van de class .tooltip zichtbaar
 	d3.select(".tooltip")
 		.style("opacity", 1)
 }
