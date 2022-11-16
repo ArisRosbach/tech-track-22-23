@@ -6,8 +6,10 @@ import * as d3 from 'd3';
 
 console.log('Hello, world!');
 
+// Global const genaamd theData
+let theData;
 // Functie die mijn API data ophaalt
-/////////////////////////////////////////////////////////
+//-----------------------------------------------------------//
 function getData() {
 	console.log("Grabbing new userdata...");
 
@@ -18,20 +20,20 @@ function getData() {
 		)
 		.then((res) => res.json())
 		.then((data) => {
-			// console.log(data);
+			// theData wordt gevuld met de data van mijn API
+			theData = data;
+
 
 			// Berekent het aantal attracties in elk Gebied
-			// console.log(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
-
-			// Berekent het aantal attracties in elk Gebied
-			/////////////////////////////////////////////////////////
+			//-----------------------------------------------------------//
 			makeGraph1(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
+
 
 			let aantalFantasyland = [];
 			let aantalRest = 0;
 			// Maakt een array met aantal attracties fantasyland
 			// Loopt door alle items, wanneer overeenkomt met "fantasyland" return array met Naam en Duur
-			/////////////////////////////////////////////////////////
+			//-----------------------------------------------------------//
 			data.forEach((item) => {
 				if (item.Gebied.toLowerCase() == "fantasyland") {
 					aantalFantasyland.push([item.Naam, item.Duur]);
@@ -48,14 +50,14 @@ getData();
 
 // Functie die zorgt dat ik een treemap kan maken van Gebieden 
 // disneyData is de data die hierboven wordt gedefinieerd in makeGraph1
-/////////////////////////////////////////////////////////
+//-----------------------------------------------------------//
 function makeGraph1(disneyData) {
 
 	console.log(disneyData);
 
 	// Code die een treemap maakt:
 	// Bron -> https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
-	/////////////////////////////////////////////////////////
+	//-----------------------------------------------------------//
 
 	// sorteert de getallen in de array dankzij de [1]
 	const data = disneyData.sort((a, b) => b[1] - a[1]);
@@ -84,7 +86,7 @@ function makeGraph1(disneyData) {
 	let x, y, w, h;
 
 	// Loopt door alle array's met data om zo te berekenen hoe de treemap eruit moet komen te zien
-	/////////////////////////////////////////////////////////
+	//-----------------------------------------------------------//
 	data.forEach((d) => {
 		console.log(d);
 		const hSpace = bounds.right - bounds.left;
@@ -104,13 +106,17 @@ function makeGraph1(disneyData) {
 		weightLeft -= d[1];
 
 		// Maakt voor elke item een rectangle aan in de svg
-		/////////////////////////////////////////////////////////
+		//-----------------------------------------------------------//
 		d3.select("svg")
 			.append("rect")
 			// Wanneer wordt geklikt op een rectangle wordt functie handleClick uitgevoerd
 			// Geeft d mee wat staat voor de data die hoort bij geklikte rect
-			.on("click", e => {
-				handleClick(d)
+			// .on("click", e => {
+			// 	handleClick(d)
+			// })
+			// Wanneer je klikt op een item wordt update functie uitgevoerd
+			.on("click", (e) => {
+				update(d);
 			})
 			.attr("x", x)
 			.attr("y", y)
@@ -123,11 +129,11 @@ function makeGraph1(disneyData) {
 
 
 		// Maakt voor elke item een text aan in de svg
-		/////////////////////////////////////////////////////////
+		//-----------------------------------------------------------//
 		d3.select("svg")
 			.append("text")
 			// Geeft mee dat de text het 1e item uit de array moet zijn
-			.text(d[0])
+			.text(d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase())
 			.attr("x", x + w / 2)
 			.attr("y", y + h / 2)
 			.attr("text-anchor", "middle")
@@ -140,7 +146,7 @@ function makeGraph1(disneyData) {
 }
 
 // Functie die een tooltip laat verschijnen wanneer je op een item klikt
-/////////////////////////////////////////////////////////
+//-----------------------------------------------------------//
 function handleClick(data) {
 	// Maak element met de class .tooltip aan en geef 1e item uit data mee
 	document.querySelector('.tooltip').innerHTML = data[0]
@@ -150,3 +156,42 @@ function handleClick(data) {
 	d3.select(".tooltip")
 		.style("opacity", 1)
 }
+
+// Functie die huidige treemap veranderd wanneer je op een item klikt
+//-----------------------------------------------------------//
+function update(data) {
+	// checken of data klopt met het blok die ik heb aangeklikt
+	console.log(data);
+
+	
+	d3.select("svg")
+	  .selectAll("rect")
+	  .data(data)
+	  .join(
+		(enter) => {
+		  return enter.append("rect").style("fill", "pink");
+		},
+		(update) => {
+		  return update.style("fill", "rebeccapurple");
+		},
+		(exit) => {
+		  return exit.transition();
+		}
+	  );
+  
+	d3.select("svg")
+	  .selectAll("text")
+	  .data(data)
+	  .join(
+		(enter) => {
+		  return enter.append("text").text(data[0]);
+		},
+		(update) => {
+		  return update.text(data[0]);
+		},
+		(exit) => {
+		  return exit.transition();
+		}
+	  );
+  }
+  

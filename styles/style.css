@@ -2,6 +2,22 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  background-color:#fcf2f8;
+}
+
+h1 {
+  text-align: center;
+}
+
+#treemap {
+  display: flex;   
+  justify-content: center;
+}
+
+#treemap svg {
+  padding: 3em;
+  border: solid;
+  background-color: white;
 }
 
 .tooltip {
