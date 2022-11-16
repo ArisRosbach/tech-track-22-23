@@ -29,20 +29,20 @@ function getData() {
 			makeGraph1(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
 
 
-			let aantalFantasyland = [];
-			let aantalRest = 0;
-			// Maakt een array met aantal attracties fantasyland
-			// Loopt door alle items, wanneer overeenkomt met "fantasyland" return array met Naam en Duur
-			//-----------------------------------------------------------//
-			data.forEach((item) => {
-				if (item.Gebied.toLowerCase() == "fantasyland") {
-					aantalFantasyland.push([item.Naam, item.Duur]);
-				} else {
-					aantalRest++;
-				}
-			});
+			// let aantalFantasyland = [];
+			// let aantalRest = 0;
+			// // Maakt een array met aantal attracties fantasyland
+			// // Loopt door alle items, wanneer overeenkomt met "fantasyland" return array met Naam en Duur
+			// //-----------------------------------------------------------//
+			// data.forEach((item) => {
+			// 	if (item.Gebied.toLowerCase() == "fantasyland") {
+			// 		aantalFantasyland.push([item.Naam, item.Duur]);
+			// 	} else {
+			// 		aantalRest++;
+			// 	}
+			// });
 
-			console.log(aantalFantasyland);
+			// console.log(aantalFantasyland);
 		});
 }
 
@@ -109,12 +109,8 @@ function makeGraph1(disneyData) {
 		//-----------------------------------------------------------//
 		d3.select("svg")
 			.append("rect")
-			// Wanneer wordt geklikt op een rectangle wordt functie handleClick uitgevoerd
+			// Wanneer er wordt geklikt op een item, wordt functie update() uitgevoerd
 			// Geeft d mee wat staat voor de data die hoort bij geklikte rect
-			// .on("click", e => {
-			// 	handleClick(d)
-			// })
-			// Wanneer je klikt op een item wordt update functie uitgevoerd
 			.on("click", (e) => {
 				update(d);
 			})
@@ -145,17 +141,6 @@ function makeGraph1(disneyData) {
 	});
 }
 
-// Functie die een tooltip laat verschijnen wanneer je op een item klikt
-//-----------------------------------------------------------//
-function handleClick(data) {
-	// Maak element met de class .tooltip aan en geef 1e item uit data mee
-	document.querySelector('.tooltip').innerHTML = data[0]
-	console.log(data);
-
-	// Maak opacity van de class .tooltip zichtbaar
-	d3.select(".tooltip")
-		.style("opacity", 1)
-}
 
 // Functie die huidige treemap veranderd wanneer je op een item klikt
 //-----------------------------------------------------------//
@@ -163,35 +148,90 @@ function update(data) {
 	// checken of data klopt met het blok die ik heb aangeklikt
 	console.log(data);
 
-	
-	d3.select("svg")
-	  .selectAll("rect")
-	  .data(data)
-	  .join(
-		(enter) => {
-		  return enter.append("rect").style("fill", "pink");
-		},
-		(update) => {
-		  return update.style("fill", "rebeccapurple");
-		},
-		(exit) => {
-		  return exit.transition();
+	let aantalAttracties = [];
+	let aantalRest = 0;
+	// array maken met aantal attracties van geklikt item
+	theData.forEach((item) => {
+		if (item.Gebied.toLowerCase() == data[0]) {
+			aantalAttracties.push([item.Naam, parseInt(item.Duur)]);
+		} else {
+			aantalRest++;
 		}
-	  );
-  
-	d3.select("svg")
-	  .selectAll("text")
-	  .data(data)
-	  .join(
-		(enter) => {
-		  return enter.append("text").text(data[0]);
-		},
-		(update) => {
-		  return update.text(data[0]);
-		},
-		(exit) => {
-		  return exit.transition();
+	});
+
+
+	// sorteert de getallen in de array dankzij de [1]
+	const data2 = aantalAttracties.sort((a, b) => b[1] - a[1]);
+	// telt het totaal van alle getallen in de verschillende arrays
+	const sum = data2.reduce((s, i) => {
+		return s + i[1]
+	}, 0);
+
+	// Checken of data en sum kloppen
+	console.log(data2);
+	console.log(sum)
+
+	// constanten
+	const svg = d3.select("svg");
+	const width = parseInt(svg.attr("width"));
+	const height = parseInt(svg.attr("height"));
+	const unit = (width * height) / sum;
+	const bounds = {
+		top: 0,
+		left: 0,
+		right: width,
+		bottom: height
+	};
+
+	let weightLeft = sum;
+	let x, y, w, h;
+
+	// Loopt door alle array's met data om zo te berekenen hoe de treemap eruit moet komen te zien
+	//-----------------------------------------------------------//
+	data2.forEach((d) => {
+		console.log(d);
+		const hSpace = bounds.right - bounds.left;
+		const vSpace = bounds.bottom - bounds.top;
+		const area = d[1] / unit;
+		x = bounds.left;
+		y = bounds.top;
+		if (hSpace > vSpace) {
+			w = (d[1] / weightLeft) * hSpace;
+			h = vSpace;
+			bounds.left = x + w;
+		} else {
+			w = hSpace;
+			h = (d[1] / weightLeft) * vSpace;
+			bounds.top = y + h;
 		}
-	  );
-  }
-  
+		weightLeft -= d[1];
+	});
+
+	d3.select("svg")
+		.selectAll("rect")
+		.join(
+			(enter) => {
+				return enter.append("rect").style("fill", "pink");
+			},
+			(update) => {
+				return update.style("fill", "rebeccapurple");
+			},
+			(exit) => {
+				return exit.transition();
+			}
+		);
+
+	d3.select("svg")
+		.selectAll("text")
+		.join(
+			(enter) => {
+				return enter.append("text").text(data2[0]);
+			},
+			(update) => {
+				return update.text(data2[0]);
+			},
+			(exit) => {
+				return exit.transition();
+			}
+		);
+}
