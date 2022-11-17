@@ -45,9 +45,9 @@ function makeGraph1(disneyData) {
 	// Bron -> https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
 	//-----------------------------------------------------------//
 
-	// sorteert de getallen in de array dankzij de [1]
+	// Sorteert de getallen in de array dankzij de [1]
 	const data = disneyData.sort((a, b) => b[1] - a[1]);
-	// telt het totaal van alle getallen in de verschillende arrays
+	// Telt het totaal van alle getallen in de verschillende arrays
 	const sum = data.reduce((s, i) => {
 		return s + i[1]
 	}, 0);
@@ -56,11 +56,10 @@ function makeGraph1(disneyData) {
 	console.log(data);
 	console.log(sum)
 
-	// constanten
+	// Constanten
 	const svg = d3.select("svg");
 	const width = parseInt(svg.attr("width"));
 	const height = parseInt(svg.attr("height"));
-	const unit = (width * height) / sum;
 	const bounds = {
 		top: 0,
 		left: 0,
@@ -77,7 +76,6 @@ function makeGraph1(disneyData) {
 		console.log(d);
 		const hSpace = bounds.right - bounds.left;
 		const vSpace = bounds.bottom - bounds.top;
-		const area = d[1] / unit;
 		x = bounds.left;
 		y = bounds.top;
 		if (hSpace > vSpace) {
@@ -96,7 +94,7 @@ function makeGraph1(disneyData) {
 		d3.select("svg")
 			.append("rect")
 			// Wanneer er wordt geklikt op een item, wordt functie update() uitgevoerd
-			// Geeft d mee wat staat voor de data die hoort bij geklikte rect
+			// Geeft d mee wat staat voor de data die hoort bij geklikte item
 			.on("click", (e) => {
 				update(d);
 			})
@@ -132,12 +130,12 @@ function makeGraph1(disneyData) {
 // Functie die huidige treemap veranderd wanneer je op een item klikt
 //-----------------------------------------------------------//
 function update(data) {
-	// checken of data klopt met het blok die ik heb aangeklikt
+	// Checken of data klopt met het blok die ik heb aangeklikt
 	console.log(data);
 
 	let aantalAttracties = [];
 	let aantalRest = 0;
-	// array maken met aantal attracties van geklikt item
+	// Array maken met aantal attracties van geklikt item
 	theData.forEach((item) => {
 		if (item.Gebied.toLowerCase() == data[0]) {
 			aantalAttracties.push([item.Naam, parseInt(item.Duur)]);
@@ -147,9 +145,9 @@ function update(data) {
 	});
 
 
-	// sorteert de nieuwe getallen in de array dankzij de [1]
+	// Sorteert de nieuwe getallen in de array dankzij de [1]
 	const data2 = aantalAttracties.sort((a, b) => b[1] - a[1]);
-	// telt het totaal van alle nieuwe getallen in de verschillende arrays
+	// Telt het totaal van alle nieuwe getallen in de verschillende arrays
 	const sum = data2.reduce((s, i) => {
 		return s + i[1]
 	}, 0);
@@ -158,11 +156,10 @@ function update(data) {
 	console.log(data2);
 	console.log(sum)
 
-	// constanten
+	// Constanten
 	const svg = d3.select("svg");
 	const width = parseInt(svg.attr("width"));
 	const height = parseInt(svg.attr("height"));
-	const unit = (width * height) / sum;
 	const bounds = {
 		top: 0,
 		left: 0,
@@ -179,7 +176,6 @@ function update(data) {
 		console.log(d);
 		const hSpace = bounds.right - bounds.left;
 		const vSpace = bounds.bottom - bounds.top;
-		const area = d[1] / unit;
 		x = bounds.left;
 		y = bounds.top;
 		if (hSpace > vSpace) {
@@ -197,19 +193,13 @@ function update(data) {
 		// Maakt voor elke item een rectangle aan in de svg
 		//-----------------------------------------------------------//
 		d3.select("svg")
-			// .data(data2)
 			.append("rect")
 			.join(
-				// met enter rectangles aan maken voor nieuwe data
+				// Enter: rectangles aanmaken met nieuwe data
 				(enter) => {
 					return enter.append("rect")
-						.attr("x", x)
-						.attr("y", y)
-						.attr("width", w)
-						.attr("height", h)
-						.style("fill", "pink");
 				},
-				// met update huidige rectangangles aanpassen met nieuwe data
+				// Update: huidige rectangangles aanpassen voor nieuwe data
 				(update) => {
 					return update
 						.attr("x", x)
@@ -219,11 +209,7 @@ function update(data) {
 						// Styling voor rect element
 						.style("stroke", "white")
 						.style("stroke-width", 10)
-						.style("fill", "rebeccapurple");
-				},
-				// met exit huidige data verwijderen
-				(exit) => {
-					return exit.transition();
+						.style("fill", "Pink");
 				}
 			)
 
@@ -231,16 +217,13 @@ function update(data) {
 		// Maakt voor elke item een text aan in de svg
 		//-----------------------------------------------------------//
 		d3.select("svg")
-			// .data(data2)
 			.append("text")
 			.join(
+				// Enter: tekst aanmaken met nieuwe data
 				(enter) => {
 					return enter.append("text")
-						.text(d[0])
-						.attr("x", x + w / 2)
-						.attr("y", y + h / 2)
-
 				},
+				// Update: huidige tekst aanpassen voor nieuwe data
 				(update) => {
 					return update.text(d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase())
 						.attr("x", x + w / 2)
@@ -251,9 +234,6 @@ function update(data) {
 						.style("fill", "Black")
 						.style("font-size", "0.8em")
 						.style("font-weight", "bold");
-				},
-				(exit) => {
-					return exit.transition();
 				}
 			)
 	});
