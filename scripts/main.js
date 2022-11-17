@@ -42,7 +42,7 @@ function makeGraph1(disneyData) {
 	console.log(disneyData);
 
 	// Code die een treemap maakt:
-	// Bron -> https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
+	// Bron code: https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
 	//-----------------------------------------------------------//
 
 	// Sorteert de getallen in de array dankzij de [1]
