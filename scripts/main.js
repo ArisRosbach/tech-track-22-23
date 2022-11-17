@@ -28,25 +28,11 @@ function getData() {
 			//-----------------------------------------------------------//
 			makeGraph1(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
 
-
-			// let aantalFantasyland = [];
-			// let aantalRest = 0;
-			// // Maakt een array met aantal attracties fantasyland
-			// // Loopt door alle items, wanneer overeenkomt met "fantasyland" return array met Naam en Duur
-			// //-----------------------------------------------------------//
-			// data.forEach((item) => {
-			// 	if (item.Gebied.toLowerCase() == "fantasyland") {
-			// 		aantalFantasyland.push([item.Naam, item.Duur]);
-			// 	} else {
-			// 		aantalRest++;
-			// 	}
-			// });
-
-			// console.log(aantalFantasyland);
 		});
 }
 
 getData();
+
 
 // Functie die zorgt dat ik een treemap kan maken van Gebieden 
 // disneyData is de data die hierboven wordt gedefinieerd in makeGraph1
@@ -142,6 +128,7 @@ function makeGraph1(disneyData) {
 }
 
 
+
 // Functie die huidige treemap veranderd wanneer je op een item klikt
 //-----------------------------------------------------------//
 function update(data) {
@@ -160,14 +147,14 @@ function update(data) {
 	});
 
 
-	// sorteert de getallen in de array dankzij de [1]
+	// sorteert de nieuwe getallen in de array dankzij de [1]
 	const data2 = aantalAttracties.sort((a, b) => b[1] - a[1]);
-	// telt het totaal van alle getallen in de verschillende arrays
+	// telt het totaal van alle nieuwe getallen in de verschillende arrays
 	const sum = data2.reduce((s, i) => {
 		return s + i[1]
 	}, 0);
 
-	// Checken of data en sum kloppen
+	// Checken of nieuwe data en sum kloppen
 	console.log(data2);
 	console.log(sum)
 
@@ -186,7 +173,7 @@ function update(data) {
 	let weightLeft = sum;
 	let x, y, w, h;
 
-	// Loopt door alle array's met data om zo te berekenen hoe de treemap eruit moet komen te zien
+	// Loopt door alle array's van de nieuwe data om zo te berekenen hoe de nieuwe treemap eruit moet komen te zien
 	//-----------------------------------------------------------//
 	data2.forEach((d) => {
 		console.log(d);
@@ -205,33 +192,70 @@ function update(data) {
 			bounds.top = y + h;
 		}
 		weightLeft -= d[1];
+
+
+		// Maakt voor elke item een rectangle aan in de svg
+		//-----------------------------------------------------------//
+		d3.select("svg")
+			// .data(data2)
+			.append("rect")
+			.join(
+				// met enter rectangles aan maken voor nieuwe data
+				(enter) => {
+					return enter.append("rect")
+						.attr("x", x)
+						.attr("y", y)
+						.attr("width", w)
+						.attr("height", h)
+						.style("fill", "pink");
+				},
+				// met update huidige rectangangles aanpassen met nieuwe data
+				(update) => {
+					return update
+						.attr("x", x)
+						.attr("y", y)
+						.attr("width", w)
+						.attr("height", h)
+						// Styling voor rect element
+						.style("stroke", "white")
+						.style("stroke-width", 10)
+						.style("fill", "rebeccapurple");
+				},
+				// met exit huidige data verwijderen
+				(exit) => {
+					return exit.transition();
+				}
+			)
+
+
+		// Maakt voor elke item een text aan in de svg
+		//-----------------------------------------------------------//
+		d3.select("svg")
+			// .data(data2)
+			.append("text")
+			.join(
+				(enter) => {
+					return enter.append("text")
+						.text(d[0])
+						.attr("x", x + w / 2)
+						.attr("y", y + h / 2)
+
+				},
+				(update) => {
+					return update.text(d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase())
+						.attr("x", x + w / 2)
+						.attr("y", y + h / 2)
+						.attr("text-anchor", "middle")
+						.attr("alignment-baseline", "middle")
+						// Styling voor text element
+						.style("fill", "Black")
+						.style("font-size", "0.8em")
+						.style("font-weight", "bold");
+				},
+				(exit) => {
+					return exit.transition();
+				}
+			)
 	});
 
-	d3.select("svg")
-		.selectAll("rect")
-		.join(
-			(enter) => {
-				return enter.append("rect").style("fill", "pink");
-			},
-			(update) => {
-				return update.style("fill", "rebeccapurple");
-			},
-			(exit) => {
-				return exit.transition();
-			}
-		);
-
-	d3.select("svg")
-		.selectAll("text")
-		.join(
-			(enter) => {
-				return enter.append("text").text(data2[0]);
-			},
-			(update) => {
-				return update.text(data2[0]);
-			},
-			(exit) => {
-				return exit.transition();
-			}
-		);
 }
