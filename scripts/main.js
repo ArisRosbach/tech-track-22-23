@@ -89,6 +89,7 @@ function makeGraph1(disneyData) {
 		}
 		weightLeft -= d[1];
 
+
 		// Maakt voor elke item een rectangle aan in de svg
 		//-----------------------------------------------------------//
 		d3.select("svg")
@@ -105,7 +106,7 @@ function makeGraph1(disneyData) {
 			// Styling voor rect element
 			.style("stroke", "white")
 			.style("stroke-width", 10)
-			.style("fill", "url(#a)")
+			.style("fill", "url(#imgGebieden)")
 
 
 		// Maakt voor elke item een text aan in de svg
@@ -189,7 +190,7 @@ function update(data) {
 		}
 		weightLeft -= d[1];
 
-
+		console.log("kaas: " + d)
 		// Maakt voor elke item een rectangle aan in de svg
 		//-----------------------------------------------------------//
 		d3.select("svg")
@@ -209,7 +210,30 @@ function update(data) {
 						// Styling voor rect element
 						.style("stroke", "white")
 						.style("stroke-width", 10)
-						.style("fill", "Pink");
+						.style("fill", (d) => {
+							if(data[0] == "fantasyland") {
+								return "url(#imgFantasyland)";
+							} else if(data[0] == "discoveryland") {
+								return "url(#imgDiscoveryland)";
+							} else if(data[0] == "worlds of pixar") {
+								return "url(#imgPixar)";
+							} else if(data[0] == "adventureland") {
+								return "url(#imgAdventureland)";
+							} else if(data[0] == "frontierland") {
+								return "url(#imgFrontierland)";
+							} else if(data[0] == "avengers campus") {
+								return "url(#imgAvengers)";
+							} else if(data[0] == "main street u.s.a.") {
+								return "url(#imgMainStreet)";
+							} else if(data[0] == "toon studio") {
+								return "url(#imgToonStudio)";
+							} else if(data[0] == "production courtyard") {
+								return "url(#imgCourtyard)";
+							}
+						});
+				},
+				(exit) => {
+					return exit.transition();
 				}
 			)
 
@@ -234,6 +258,9 @@ function update(data) {
 						.style("fill", "Black")
 						.style("font-size", "0.8em")
 						.style("font-weight", "bold");
+				},
+				(exit) => {
+					return exit.transition();
 				}
 			)
 	});

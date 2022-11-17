@@ -12,12 +12,18 @@ h1 {
 #treemap {
   display: flex;   
   justify-content: center;
+  margin: 3em;
 }
 
 #treemap svg {
   padding: 3em;
   border: solid;
   background-color: white;
+}
+
+.svgImgWidthHeigt {
+  width: 700px;
+  height: 400px;
 }
 
 .tooltip {
