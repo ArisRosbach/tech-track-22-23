@@ -104,6 +104,7 @@ function makeGraph1(disneyData) {
 			.attr("width", w)
 			.attr("height", h)
 			// Styling voor rect element
+			.attr("opacity", 0.5)
 			.style("stroke", "white")
 			.style("stroke-width", 10)
 			.style("fill", "url(#imgGebieden)")
@@ -119,6 +120,10 @@ function makeGraph1(disneyData) {
 			.attr("y", y + h / 2)
 			.attr("text-anchor", "middle")
 			.attr("alignment-baseline", "middle")
+			.attr("textLength", w - 15)
+			// .attr("textLength", 50)
+			
+		
 			// Styling voor text element
 			.style("fill", "Black")
 			.style("font-size", "0.8em")
@@ -128,11 +133,21 @@ function makeGraph1(disneyData) {
 
 
 
+
 // Functie die huidige treemap veranderd wanneer je op een item klikt
 //-----------------------------------------------------------//
 function update(data) {
 	// Checken of data klopt met het blok die ik heb aangeklikt
 	console.log(data);
+
+	// Zorgen dat oude treemap niet meer te zien is
+	d3.select("svg")
+	  .selectAll("rect")
+	  .attr("opacity", 0)
+
+	  d3.select("svg")
+	  .selectAll("text")
+	  .attr("opacity", 0)
 
 	let aantalAttracties = [];
 	let aantalRest = 0;
@@ -207,6 +222,7 @@ function update(data) {
 						.attr("y", y)
 						.attr("width", w)
 						.attr("height", h)
+						.attr("opacity", 0.5)
 						// Styling voor rect element
 						.style("stroke", "white")
 						.style("stroke-width", 10)
@@ -255,6 +271,7 @@ function update(data) {
 						.attr("text-anchor", "middle")
 						.attr("alignment-baseline", "middle")
 						// Styling voor text element
+						.attr("textLength", w - 15)
 						.style("fill", "Black")
 						.style("font-size", "0.8em")
 						.style("font-weight", "bold");
