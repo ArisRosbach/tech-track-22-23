@@ -103,6 +103,28 @@ function makeGraph1(disneyData) {
 			.attr("y", y)
 			.attr("width", w)
 			.attr("height", h)
+
+			// Tooltip verschijnt wanneer je over rect hovert 
+			// Geeft informatie over aantal attracties van gebied
+			.on("mouseover touchstart", (e) =>
+				d3
+				.select("#tooltip")
+				.transition()
+				.duration(700)
+				.style("opacity", 1)
+				.text(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
+			)
+			// Tooltip op juiste positie zeten en laten meebewegen met de muis
+			.on("mousemove", (e) =>
+				d3
+				.select("#tooltip")
+				.style("left", e.pageX + 15 + "px")
+				.style("top", e.pageY + 15 + "px")
+			)
+			// Tooltip verbergen wanneer je van rect af beweegt
+			.on("mouseout", e => d3.select("#tooltip").style("opacity", 0))
+
+
 			// Styling voor rect element
 			.attr("opacity", 0.5)
 			.style("stroke", "white")
@@ -122,8 +144,8 @@ function makeGraph1(disneyData) {
 			.attr("alignment-baseline", "middle")
 			.attr("textLength", w - 15)
 			// .attr("textLength", 50)
-			
-		
+
+
 			// Styling voor text element
 			.style("fill", "Black")
 			.style("font-size", "0.8em")
@@ -142,12 +164,12 @@ function update(data) {
 
 	// Zorgen dat oude treemap niet meer te zien is
 	d3.select("svg")
-	  .selectAll("rect")
-	  .attr("opacity", 0)
+		.selectAll("rect")
+		.attr("opacity", 0)
 
-	  d3.select("svg")
-	  .selectAll("text")
-	  .attr("opacity", 0)
+	d3.select("svg")
+		.selectAll("text")
+		.attr("opacity", 0)
 
 	let aantalAttracties = [];
 	let aantalRest = 0;
@@ -222,28 +244,49 @@ function update(data) {
 						.attr("y", y)
 						.attr("width", w)
 						.attr("height", h)
-						.attr("opacity", 0.5)
+
+						// Tooltip verschijnt wanneer je over nieuwe rect hovert 
+						// Geeft informatie over duur van elke attractie
+						.on("mouseover touchstart", (e) =>
+							d3
+							.select("#tooltip")
+							.transition()
+							.duration(800)
+							.style("opacity", 1)
+							.text(`Duur van "${d[0]}": ${d[1]} minuten`)
+						)
+						// Tooltip op juiste positie zeten en laten meebewegen met de muis
+						.on("mousemove", (e) =>
+							d3
+							.select("#tooltip")
+							.style("left", e.pageX + 15 + "px")
+							.style("top", e.pageY + 15 + "px")
+						)
+						// Tooltip verbergen wanneer je van rect af beweegt
+						.on("mouseout", e => d3.select("#tooltip").style("opacity", 0))
+
 						// Styling voor rect element
+						.attr("opacity", 0.5)
 						.style("stroke", "white")
 						.style("stroke-width", 10)
 						.style("fill", (d) => {
-							if(data[0] == "fantasyland") {
+							if (data[0] == "fantasyland") {
 								return "url(#imgFantasyland)";
-							} else if(data[0] == "discoveryland") {
+							} else if (data[0] == "discoveryland") {
 								return "url(#imgDiscoveryland)";
-							} else if(data[0] == "worlds of pixar") {
+							} else if (data[0] == "worlds of pixar") {
 								return "url(#imgPixar)";
-							} else if(data[0] == "adventureland") {
+							} else if (data[0] == "adventureland") {
 								return "url(#imgAdventureland)";
-							} else if(data[0] == "frontierland") {
+							} else if (data[0] == "frontierland") {
 								return "url(#imgFrontierland)";
-							} else if(data[0] == "avengers campus") {
+							} else if (data[0] == "avengers campus") {
 								return "url(#imgAvengers)";
-							} else if(data[0] == "main street u.s.a.") {
+							} else if (data[0] == "main street u.s.a.") {
 								return "url(#imgMainStreet)";
-							} else if(data[0] == "toon studio") {
+							} else if (data[0] == "toon studio") {
 								return "url(#imgToonStudio)";
-							} else if(data[0] == "production courtyard") {
+							} else if (data[0] == "production courtyard") {
 								return "url(#imgCourtyard)";
 							}
 						});
