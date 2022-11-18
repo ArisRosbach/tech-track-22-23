@@ -39,6 +39,7 @@ getData();
 //-----------------------------------------------------------//
 function makeGraph1(disneyData) {
 
+	// Checken of data klopt
 	console.log(disneyData);
 
 	// Code die een treemap maakt:
@@ -94,18 +95,36 @@ function makeGraph1(disneyData) {
 		//-----------------------------------------------------------//
 		d3.select("svg")
 			.append("rect")
-			// Wanneer er wordt geklikt op een item, wordt functie update() uitgevoerd
-			// Geeft d mee wat staat voor de data die hoort bij geklikte item
-			.on("click", (e) => {
-				update(d);
-			})
 			.attr("x", x)
 			.attr("y", y)
 			.attr("width", w)
 			.attr("height", h)
 
-			// Tooltip verschijnt wanneer je over rect hovert 
+			// Styling voor rect element
+			.attr("opacity", 0.5)
+			.style("stroke", "white")
+			.style("stroke-width", 10)
+			.style("fill", "url(#imgGebieden)")
+
+		// Maakt voor elke item een foreignObject aan in de svg gevuld met html
+		// foreignObject is zo grott als rect dus daar zal klikevent op worden toegepast
+		//-----------------------------------------------------------//
+		d3.select("svg")
+			.append("foreignObject")
+			.attr("x", x + 5)
+			.attr("y", y)
+			.attr("width", w - 10)
+			.attr("height", h - 15)
+
+			// Wanneer er wordt geklikt op foreignObject, wordt functie update() uitgevoerd
+			// Geeft d mee wat staat voor de data die hoort bij geklikte item
+			.on("click", (e) => {
+				update(d);
+			})
+
+			// Tooltip verschijnt wanneer je over foreignObject hovert 
 			// Geeft informatie over aantal attracties van gebied
+			//-----------------------------------------------------------//
 			.on("mouseover touchstart", (e) =>
 				d3
 				.select("#tooltip")
@@ -124,36 +143,13 @@ function makeGraph1(disneyData) {
 			// Tooltip verbergen wanneer je van rect af beweegt
 			.on("mouseout", e => d3.select("#tooltip").style("opacity", 0))
 
+			// Voegt html <p></p> toe aan de foreignOjbect
+			.append("xhtml:p")
+			.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
+			.attr('class', 'textTreemap')
 
-			// Styling voor rect element
-			.attr("opacity", 0.5)
-			.style("stroke", "white")
-			.style("stroke-width", 10)
-			.style("fill", "url(#imgGebieden)")
-
-
-		// Maakt voor elke item een text aan in de svg
-		//-----------------------------------------------------------//
-		d3.select("svg")
-			.append("text")
-			// Geeft mee dat de text het 1e item uit de array moet zijn
-			.text(d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase())
-			.attr("x", x + w / 2)
-			.attr("y", y + h / 2)
-			.attr("text-anchor", "middle")
-			.attr("alignment-baseline", "middle")
-			.attr("textLength", w - 15)
-			// .attr("textLength", 50)
-
-
-			// Styling voor text element
-			.style("fill", "Black")
-			.style("font-size", "0.8em")
-			.style("font-weight", "bold");
 	});
 }
-
-
 
 
 // Functie die huidige treemap veranderd wanneer je op een item klikt
@@ -168,7 +164,7 @@ function update(data) {
 		.attr("opacity", 0)
 
 	d3.select("svg")
-		.selectAll("text")
+		.selectAll("foreignObject")
 		.attr("opacity", 0)
 
 	let aantalAttracties = [];
@@ -227,7 +223,6 @@ function update(data) {
 		}
 		weightLeft -= d[1];
 
-		console.log("kaas: " + d)
 		// Maakt voor elke item een rectangle aan in de svg
 		//-----------------------------------------------------------//
 		d3.select("svg")
@@ -245,50 +240,13 @@ function update(data) {
 						.attr("width", w)
 						.attr("height", h)
 
-						// Tooltip verschijnt wanneer je over nieuwe rect hovert 
-						// Geeft informatie over duur van elke attractie
-						.on("mouseover touchstart", (e) =>
-							d3
-							.select("#tooltip")
-							.transition()
-							.duration(800)
-							.style("opacity", 1)
-							.text(`Duur van "${d[0]}": ${d[1]} minuten`)
-						)
-						// Tooltip op juiste positie zeten en laten meebewegen met de muis
-						.on("mousemove", (e) =>
-							d3
-							.select("#tooltip")
-							.style("left", e.pageX + 15 + "px")
-							.style("top", e.pageY + 15 + "px")
-						)
-						// Tooltip verbergen wanneer je van rect af beweegt
-						.on("mouseout", e => d3.select("#tooltip").style("opacity", 0))
-
 						// Styling voor rect element
 						.attr("opacity", 0.5)
 						.style("stroke", "white")
 						.style("stroke-width", 10)
 						.style("fill", (d) => {
-							if (data[0] == "fantasyland") {
-								return "url(#imgFantasyland)";
-							} else if (data[0] == "discoveryland") {
-								return "url(#imgDiscoveryland)";
-							} else if (data[0] == "worlds of pixar") {
-								return "url(#imgPixar)";
-							} else if (data[0] == "adventureland") {
-								return "url(#imgAdventureland)";
-							} else if (data[0] == "frontierland") {
-								return "url(#imgFrontierland)";
-							} else if (data[0] == "avengers campus") {
-								return "url(#imgAvengers)";
-							} else if (data[0] == "main street u.s.a.") {
-								return "url(#imgMainStreet)";
-							} else if (data[0] == "toon studio") {
-								return "url(#imgToonStudio)";
-							} else if (data[0] == "production courtyard") {
-								return "url(#imgCourtyard)";
-							}
+							// returnt url pattern met data zonder spaties
+							return `url(#${data[0].replace(/\s+/g, '')})`
 						});
 				},
 				(exit) => {
@@ -297,27 +255,46 @@ function update(data) {
 			)
 
 
-		// Maakt voor elke item een text aan in de svg
+		// Maakt voor elke item een foreignObject aan in de svg
 		//-----------------------------------------------------------//
 		d3.select("svg")
-			.append("text")
+			.append("foreignObject")
+			.attr("x", x + 5)
+			.attr("y", y)
+			.attr("width", w - 10)
+			.attr("height", h - 15)
+
+			// Tooltip verschijnt wanneer je over foreignObject hovert 
+			// Geeft informatie over duur van de attractie
+			//-----------------------------------------------------------//
+			.on("mouseover touchstart", (e) =>
+				d3
+				.select("#tooltip")
+				.transition()
+				.duration(700)
+				.style("opacity", 1)
+				.text(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
+			)
+			// Tooltip op juiste positie zeten en laten meebewegen met de muis
+			.on("mousemove", (e) =>
+				d3
+				.select("#tooltip")
+				.style("left", e.pageX + 15 + "px")
+				.style("top", e.pageY + 15 + "px")
+			)
+			// Tooltip verbergen wanneer je van rect af beweegt
+			.on("mouseout", e => d3.select("#tooltip").style("opacity", 0))
+
 			.join(
-				// Enter: tekst aanmaken met nieuwe data
+				// Enter: <p></p> aanmaken met nieuwe data
 				(enter) => {
-					return enter.append("text")
+					return enter.append("xhtml:p")
 				},
-				// Update: huidige tekst aanpassen voor nieuwe data
+				// Update: huidige <p></p> aanpassen met nieuwe data
 				(update) => {
-					return update.text(d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase())
-						.attr("x", x + w / 2)
-						.attr("y", y + h / 2)
-						.attr("text-anchor", "middle")
-						.attr("alignment-baseline", "middle")
-						// Styling voor text element
-						.attr("textLength", w - 15)
-						.style("fill", "Black")
-						.style("font-size", "0.8em")
-						.style("font-weight", "bold");
+					return update.append("xhtml:p")
+						.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}`)
+						.attr('class', 'textTreemap')
 				},
 				(exit) => {
 					return exit.transition();

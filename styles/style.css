@@ -21,6 +21,13 @@ h1 {
   background-color: white;
 }
 
+.textTreemap {
+  color: black;
+  padding-left: 0.3em;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
 .svgImgWidthHeigt {
   width: 700px;
   height: 400px;
@@ -36,5 +43,4 @@ h1 {
   box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
   border-radius: 3px;
   opacity: 0;
-  pointer-event: none;
 }
