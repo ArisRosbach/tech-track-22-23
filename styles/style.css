@@ -1,8 +1,20 @@
+:root {
+  --main-pink-color: #FFC0CB;
+  --main-purple-color: #64266b;
+  --light-pink-color: #fcf2f8;
+  --light-purple-color: #ebbbf0;
+
+
+  --basic-white: #ffffff;
+  --basic-black: #000000;
+
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
-  background-color: #fcf2f8;
+  background-color: var(--light-pink-color);
   padding: 0;
   margin: 0;
 }
@@ -11,14 +23,14 @@ body {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  background-color: white;
+  background-color: var(--basic-white);
   padding: 0em 0em 3em;
 }
 
 .startScreen img {
   position: relative;
   width: 100%;
-  height: 23em;
+  height: 25em;
   opacity: 0.7;
   object-fit: cover;
   margin-bottom: 5em;
@@ -26,17 +38,17 @@ body {
 
 .startScreen .headerTitel {
   position: absolute;
-  background: white;
+  background: var(--basic-white);
   padding: 3em;
   border-radius: 1em;
   box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
-  top: 17em;
+  top: 19em;
 }
 
 .startScreen .headerTitel h1 {
   text-align: center;
   font-size: 2.5em;
-  color: #993fa3;
+  color: var(--main-purple-color);
   margin: 0;
   width: 100%;
 }
@@ -51,8 +63,9 @@ body {
 
 .startScreen .headerImgTekst h2 {
   font-size: 2.2em;
-  background-image: linear-gradient(45deg, #ff089a, #307ec2);
+  background-image: linear-gradient(45deg, var(--main-pink-color), var(--light-pink-color));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -61,17 +74,25 @@ body {
 }
 
 .dataVisualisation {
-
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 0em 0em 3em;
+}
+
+.dataVisualisation h2 {
+  width: 100%;
+  padding: 1em 3em 0em;
+  font-size: 2em;
+  color: var(--main-purple-color);
 }
 
 #buttonTreemap {
+  cursor: pointer;
   width: 7em;
   margin: auto;
-  background-color: #993fa3;
-  color: white;
+  background-color: var(--main-purple-color);
+  color: var(--basic-white);
   padding: 0.5em 1em;
   border-radius: 0.5em;
   opacity: 0;
@@ -90,16 +111,21 @@ body {
 
 #treemap svg {
   padding: 3em;
-  background-color: white;
+  background-color: var(--basic-white);
   border-radius: 1em;
   box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
 }
 
+#treemap foreignObject {
+  cursor: pointer;
+}
+
 .textTreemap {
-  color: black;
+  color: var(--basic-black);
   padding-left: 0.3em;
-  font-size: 0.8em;
+  font-size: 1em;
   font-weight: bold;
+  margin: 0.5em 0em
 }
 
 .svgImgWidthHeigt {
@@ -109,7 +135,7 @@ body {
 
 #tooltip {
   position: absolute;
-  background: pink;
+  background: var(--main-pink-color);
   font-size: 0.8em;
   color: black;
   font-family: sans-serif;
@@ -118,25 +144,28 @@ body {
   border-radius: 3px;
   opacity: 0;
   pointer-events: none;
+  z-index: 1;
 }
 
 .divSVG {
   width: 18em;
   position: relative;
   margin: 3em 3em 3em 0em;
-  background: white;
+  background: var(--basic-white);
   border-radius: 2em 2em 1em 1em;
   box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
 }
 
-.divSVG h2 {
+.divSVG #attractieNaam {
   margin: 0em 0em 1em;
-  background-color: pink;
+  background-color: var(--main-pink-color);
   border-radius: 1em 1em 0em 0em;
-  padding: 2em;
+  padding: 1em;
   text-align: center;
+  width: auto;
+  color: var(--basic-white);
 }
 
 .divSVG #attractieInfo {
-  padding: 0em 3em;
+  padding: 0em 2em;
 }

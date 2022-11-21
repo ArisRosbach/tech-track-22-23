@@ -334,6 +334,7 @@ function button(data) {
 		.style("opacity", 1)
 		.on("click", (e) => {
 			makeGraph1(d3.rollups(theData, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
+			deleteInfo();
 		})
 
 }
@@ -370,4 +371,13 @@ function info(data) {
 	<p>Type: ${infoAttracties[0][3]} </p>
 	<p>Duur: ${infoAttracties[0][4]} minuten</p>
 	<p>Gebied: ${infoAttracties[0][5]} </p>`;
+}
+
+function deleteInfo() {
+	var attractieInfo = document.getElementById("attractieInfo");
+	var attractieNaam = document.getElementById("attractieNaam");
+
+	attractieNaam.innerHTML = `Hoe het werkt`
+
+	attractieInfo.innerHTML = `<p>Hiernaast zie je een treemap die alle gebieden van Disneyland Paris bevat. Klik om meer te weten! </p>`;
 }
