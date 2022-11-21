@@ -267,6 +267,10 @@ function update(data) {
 			.attr("width", w - 10)
 			.attr("height", h - 15)
 
+			.on("click", (e) => {
+				info(d);
+			})
+
 			// Tooltip verschijnt wanneer je over foreignObject hovert 
 			// Geeft informatie over duur van de attractie
 			//-----------------------------------------------------------//
@@ -307,3 +311,44 @@ function update(data) {
 
 }
 
+// Functie die wanneer er wordt geklikt, button laat verschijnen
+//-----------------------------------------------------------//
+function button(data) {
+	// Checken of data klopt met het blok die ik heb aangeklikt
+	console.log(data);
+
+	d3.select("#buttonTreemap")
+		.style("opacity", 1)
+
+}
+
+// Functie die wanneer er wordt geklikt, data over attractie laat verschijnen
+//-----------------------------------------------------------//
+function info(data) {
+	// Checken of data klopt met het blok die ik heb aangeklikt
+	console.log(data);
+
+
+
+	let infoAttracties = [];
+	let aantalRest = 0;
+	theData.forEach((item) => {
+		if (item.Naam == data[0]) {
+			infoAttracties.push([item.Naam, item.Park, item.Categorie, item.Type, parseInt(item.Duur), item.Gebied]);
+		} else {
+			aantalRest++;
+		}
+	});
+
+	console.log(infoAttracties);
+
+
+	var attractieInfo = document.getElementById("attractieInfo");
+
+	attractieInfo.innerHTML = "Naam:" + infoAttracties[0][0] + "<br>" + 
+								"Park: " + infoAttracties[0][1] + "<br>" +
+								"Categorie: " + infoAttracties[0][2] + "<br>" +
+								"Type: " + infoAttracties[0][3] + "<br>" +
+								"Duur: " + infoAttracties[0][4] + "<br>" +
+								"Gebied: " + infoAttracties[0][5];
+}
