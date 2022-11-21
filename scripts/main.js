@@ -11,7 +11,7 @@ let theData;
 // Functie die mijn API data ophaalt
 //-----------------------------------------------------------//
 function getData() {
-	console.log("Grabbing new userdata...");
+	console.log("Grabbing new data...");
 
 	// Met fetch haal ik de mijn API op, dit wordt omgezet naar een response object.
 	// Met .json() zet ik de data om in een JSON tekst bestand
@@ -112,14 +112,15 @@ function makeGraph1(disneyData) {
 		d3.select("svg")
 			.append("foreignObject")
 			.attr("x", x + 5)
-			.attr("y", y)
+			.attr("y", y + 5)
 			.attr("width", w - 10)
-			.attr("height", h - 15)
+			.attr("height", h - 10)
 
 			// Wanneer er wordt geklikt op foreignObject, wordt functie update() uitgevoerd
 			// Geeft d mee wat staat voor de data die hoort bij geklikte item
 			.on("click", (e) => {
 				update(d);
+				button(d);
 			})
 
 			// Tooltip verschijnt wanneer je over foreignObject hovert 
@@ -129,7 +130,7 @@ function makeGraph1(disneyData) {
 				d3
 				.select("#tooltip")
 				.transition()
-				.duration(700)
+				.duration(500)
 				.style("opacity", 1)
 				.text(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
 			)
@@ -141,11 +142,11 @@ function makeGraph1(disneyData) {
 				.style("top", e.pageY + 15 + "px")
 			)
 			// Tooltip verbergen wanneer je van rect af beweegt
-			.on("mouseout", e => d3.select("#tooltip").style("opacity", 0))
+			.on("mouseout", (e) => d3.select("#tooltip").style("opacity", 0))
 
 			// Voegt html <p></p> toe aan de foreignOjbect
 			.append("xhtml:p")
-			.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
+			.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}`)
 			.attr('class', 'textTreemap')
 
 	});
@@ -246,6 +247,8 @@ function update(data) {
 						.style("stroke-width", 10)
 						.style("fill", (d) => {
 							// returnt url pattern met data zonder spaties
+							// Bron: https://stackoverflow.com/questions/5963182/how-to-remove-spaces-from-a-string-using-javascript
+							// Credits: Laurens
 							return `url(#${data[0].replace(/\s+/g, '')})`
 						});
 				},
@@ -255,7 +258,7 @@ function update(data) {
 			)
 
 
-		// Maakt voor elke item een foreignObject aan in de svg
+		// Maakt voor elke item een nieuw foreignObject aan in de svg
 		//-----------------------------------------------------------//
 		d3.select("svg")
 			.append("foreignObject")
@@ -293,7 +296,7 @@ function update(data) {
 				// Update: huidige <p></p> aanpassen met nieuwe data
 				(update) => {
 					return update.append("xhtml:p")
-						.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}`)
+						.html(`${d[0]}`)
 						.attr('class', 'textTreemap')
 				},
 				(exit) => {
@@ -303,3 +306,4 @@ function update(data) {
 	});
 
 }
+
