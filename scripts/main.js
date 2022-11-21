@@ -42,6 +42,18 @@ function makeGraph1(disneyData) {
 	// Checken of data klopt
 	console.log(disneyData);
 
+	// Zorgen dat oude treemap niet meer te zien is
+	d3.select("svg")
+		.selectAll("rect")
+		.attr("opacity", 0)
+
+	d3.select("svg")
+		.selectAll("foreignObject")
+		.attr("opacity", 0)
+
+	d3.select("#buttonTreemap")
+		.style("opacity", 0)
+
 	// Code die een treemap maakt:
 	// Bron code: https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
 	//-----------------------------------------------------------//
@@ -130,7 +142,7 @@ function makeGraph1(disneyData) {
 				d3
 				.select("#tooltip")
 				.transition()
-				.duration(500)
+				.duration(300)
 				.style("opacity", 1)
 				.text(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
 			)
@@ -143,6 +155,7 @@ function makeGraph1(disneyData) {
 			)
 			// Tooltip verbergen wanneer je van rect af beweegt
 			.on("mouseout", (e) => d3.select("#tooltip").style("opacity", 0))
+
 
 			// Voegt html <p></p> toe aan de foreignOjbect
 			.append("xhtml:p")
@@ -278,7 +291,7 @@ function update(data) {
 				d3
 				.select("#tooltip")
 				.transition()
-				.duration(700)
+				.duration(300)
 				.style("opacity", 1)
 				.text(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
 			)
@@ -319,6 +332,9 @@ function button(data) {
 
 	d3.select("#buttonTreemap")
 		.style("opacity", 1)
+		.on("click", (e) => {
+			makeGraph1(d3.rollups(theData, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
+		})
 
 }
 
@@ -328,8 +344,7 @@ function info(data) {
 	// Checken of data klopt met het blok die ik heb aangeklikt
 	console.log(data);
 
-
-
+	// array maken van info attractie die overeenkomt met aangeklikte attractie
 	let infoAttracties = [];
 	let aantalRest = 0;
 	theData.forEach((item) => {
@@ -344,11 +359,15 @@ function info(data) {
 
 
 	var attractieInfo = document.getElementById("attractieInfo");
+	var attractieNaam = document.getElementById("attractieNaam");
 
-	attractieInfo.innerHTML = "Naam:" + infoAttracties[0][0] + "<br>" + 
-								"Park: " + infoAttracties[0][1] + "<br>" +
-								"Categorie: " + infoAttracties[0][2] + "<br>" +
-								"Type: " + infoAttracties[0][3] + "<br>" +
-								"Duur: " + infoAttracties[0][4] + "<br>" +
-								"Gebied: " + infoAttracties[0][5];
+	attractieNaam.innerHTML = infoAttracties[0][0]
+
+	attractieInfo.innerHTML = 
+	`<p>Naam: ${infoAttracties[0][0]} </p>
+	<p>Park: ${infoAttracties[0][1]} </p>
+	<p>Categorie: ${infoAttracties[0][2]} </p>
+	<p>Type: ${infoAttracties[0][3]} </p>
+	<p>Duur: ${infoAttracties[0][4]} minuten</p>
+	<p>Gebied: ${infoAttracties[0][5]} </p>`;
 }
