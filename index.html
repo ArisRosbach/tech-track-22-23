@@ -10,7 +10,9 @@
 
 <body>
 
+  <!-- -----------------Header----------------- -->
   <header class="startScreen">
+
     <img src="images/headerimg-dlp.jpg" alt="header img disneyland paris">
     <div class="headerTitel">
       <h1>Disneyland Paris Attracties</h1>
@@ -31,22 +33,22 @@
 
   </header>
 
-
+  <!-- -----------------Section 1----------------- -->
   <section class="dataVisualisation">
 
     <h2>Disneypark Treemap</h2>
-    
+
 
     <div id="treemap">
-
       <div id="tooltip"></div>
-      <!-- Svg waarin in treemap wordt gemaakt -->
+
+      <!-- -----------------SVG waar treemap in wordt gemaakt----------------- -->
       <svg width="550" height="400">
 
-        <!-- Images die als achtergrond treemap wordt gebruikt -->
+        <!-- -----------------Achtergrond images voor treemap ----------------- -->
         <!-- Bron afbeeldingen: https://www.disneylandparis.com/nl-nl/bestemmingen/ -->
         <pattern id="imgGebieden" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/disneylandparis-achtergrond.jpg"  class="svgImgWidthHeigt"/>
+          <image href="images/disneylandparis-achtergrond.jpg" class="svgImgWidthHeigt" />
         </pattern>
 
         <pattern id="adventureland" patternUnits="userSpaceOnUse" width="550" height="400">
@@ -79,6 +81,7 @@
       </svg>
     </div>
 
+    <!-- -----------------Div die informatie Attracties weergeeft----------------- -->
     <div class="divSVG">
       <h2 id="attractieNaam">Hoe het werkt</h2>
       <div id="attractieInfo">
@@ -93,7 +96,7 @@
 
 
 
-
+  <!-- -----------------Script die verwijst naar main.js----------------- -->
   <script type="module" src="./scripts/main.js"></script>
 </body>
 
