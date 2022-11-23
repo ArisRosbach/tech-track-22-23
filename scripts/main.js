@@ -161,7 +161,6 @@ function makeGraph1(disneyData) {
 			.append("xhtml:p")
 			.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}`)
 			.attr('class', 'textTreemap')
-
 	});
 }
 
@@ -265,7 +264,6 @@ function update(data) {
 						});
 				}
 			)
-
 
 		// Maakt voor elk nieuwe item een foreignObject aan in de svg gevuld met html
 		//-----------------------------------------------------------//
