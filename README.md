@@ -48,7 +48,7 @@ Deze repository is licensed onder de [MIT License](https://github.com/ArisRosbac
   <img width="70%" src="https://github.com/ArisRosbach/tech-track-22-23/blob/main/images/MITLicense.JPG" />
 </p>
 
-## :email:Contact
+## Contact
 Naam -  Aris Rosbach <br>
 Email - aris.rosbach@hva.nl <br>
 Project - https://github.com/ArisRosbach/tech-track-22-23
