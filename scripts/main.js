@@ -43,14 +43,12 @@ function makeGraph1(disneyData) {
 	// disneyData is de data die gedefinieerd in makeGraph1
 	console.log(disneyData);
 
-	// Voordat treemap wordt gemaakt, alles van daarvoor niet zichtbaar maken
+	// Voordat treemap wordt gemaakt, alles van daarvoor verwijderen
 	d3.select("svg")
-		.selectAll("rect")
-		.attr("opacity", 0)
+		.selectAll("rect").remove()
 
 	d3.select("svg")
-		.selectAll("foreignObject")
-		.attr("opacity", 0)
+		.selectAll("foreignObject").remove()
 
 	// Button op niet zichtbaar zetten
 	d3.select("#buttonTreemap")
@@ -144,7 +142,7 @@ function makeGraph1(disneyData) {
 				d3
 				.select("#tooltip")
 				.transition()
-				.duration(300)
+				.duration(200)
 				.style("opacity", 1)
 				.text(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
 			)
@@ -174,14 +172,12 @@ function update(data) {
 	// Checken of data klopt met het blok die ik heb aangeklikt
 	console.log(data);
 
-	// Voordat nieuwe treemap wordt gemaakt, alles van daarvoor niet zichtbaar maken
+	// Voordat nieuwe treemap wordt gemaakt, alles van daarvoor verwijderen
 	d3.select("svg")
-		.selectAll("rect")
-		.attr("opacity", 0)
+		.selectAll("rect").remove()
 
 	d3.select("svg")
-		.selectAll("foreignObject")
-		.attr("opacity", 0)
+		.selectAll("foreignObject").remove()
 
 	// Array maken met attracties in aangeklikt gebied
 	let aantalAttracties = [];
@@ -289,7 +285,7 @@ function update(data) {
 				d3
 				.select("#tooltip")
 				.transition()
-				.duration(300)
+				.duration(200)
 				.style("opacity", 1)
 				.text(`${d[0]}, Duur: ${d[1]} minuten`)
 			)
@@ -365,8 +361,8 @@ function info(data) {
 	attractieNaam.textContent = infoAttracties[0][0]
 
 	// Veranderd HTML naar de informatie van de aangeklikte attractie
-	attractieInfo.innerHTML = 
-	`<p>Naam: ${infoAttracties[0][0]} </p>
+	attractieInfo.innerHTML =
+		`<p>Naam: ${infoAttracties[0][0]} </p>
 	<p>Park: ${infoAttracties[0][1]} </p>
 	<p>Categorie: ${infoAttracties[0][2]} </p>
 	<p>Type: ${infoAttracties[0][3]} </p>

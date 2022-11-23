@@ -28,7 +28,7 @@ body {
 /* Header */
 /* ******************************************************************** */
 /* ******************************************************************** */
-header {
+section:first-of-type {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -36,7 +36,7 @@ header {
   padding: 0em 0em 3em;
 }
 
-header img {
+section:first-of-type img {
   position: relative;
   width: 100%;
   height: 25em;
@@ -47,7 +47,7 @@ header img {
 
 /* Header titel */
 /* ******************************************* */
-header .title {
+section:first-of-type .title {
   position: absolute;
   background: var(--basic-white);
   padding: 3em;
@@ -56,7 +56,7 @@ header .title {
   top: 19em;
 }
 
-header .title h1 {
+section:first-of-type .title h1 {
   text-align: center;
   font-size: 2.5em;
   color: var(--main-purple-color);
@@ -66,7 +66,7 @@ header .title h1 {
 
 /* Header image */
 /* ******************************************* */
-header .headerImgText {
+section:first-of-type .headerImgText {
   position: absolute;
   max-width: 40em;
   padding: 0em 5em 0em 0em;
@@ -74,7 +74,7 @@ header .headerImgText {
   left: 5em;
 }
 
-header .headerImgText h2 {
+section:first-of-type .headerImgText h2 {
   font-size: 2.2em;
   background-image: linear-gradient(45deg, var(--main-pink-color), var(--light-pink-color));
   -webkit-background-clip: text;
@@ -84,21 +84,21 @@ header .headerImgText h2 {
 
 /* Header intro tekst*/
 /* ******************************************* */
-header .headerText {
+section:first-of-type .headerText {
   max-width: 50em;
 }
 
 /* Section 1 */
 /* ******************************************************************** */
 /* ******************************************************************** */
-section {
+section:nth-of-type(2) {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   padding: 0em 0em 3em;
 }
 
-section h2 {
+section:nth-of-type(2) h2 {
   width: 100%;
   padding: 1em 3em 0em;
   font-size: 2em;
@@ -109,6 +109,10 @@ section h2 {
 /* ******************************************************************** */
 #treemap {
   margin: 3em;
+  padding: 3em;
+  background-color: white;
+  box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
+  border-radius: 1em;
 }
 
 /* Tooltip*/
@@ -130,10 +134,7 @@ section h2 {
 /* SVG met Treemap*/
 /* ******************************************* */
 #treemap svg {
-  padding: 3em;
   background-color: var(--basic-white);
-  border-radius: 1em;
-  box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
 }
 
 /* Class width en height pattern image*/
@@ -154,6 +155,7 @@ section h2 {
 .textTreemap {
   color: var(--basic-black);
   padding-left: 0.3em;
+  padding-right: 0.3em;
   font-size: 1em;
   font-weight: bold;
   margin: 0.5em 0em
