@@ -8,95 +8,104 @@
   <title>Tech-track Boilerplate App</title>
 </head>
 
-<body>
+<body >
 
-  <!-- -----------------Section 1----------------- -->
-  <section>
+  <div class="snapContainer">
 
-    <img src="images/headerimg-dlp.jpg" alt="header img disneyland paris">
-    <div class="title">
-      <h1>Disneyland Paris Attracties</h1>
-    </div>
-    <div class="headerImgText">
-      <h2>Weten welke attracties je kunt vinden in Disneyland Paris?</h2>
-    </div>
-    <div class="headerText">
-      <h2>Altijd al willen weten welke attracties je kunt vinden in Disneyland Paris?
-        Zoek niet langer verder want hier vind je een duidelijk overzicht.
+    <!-- -----------------Section 1----------------- -->
+    <section class="snapChild">
+
+      <img src="images/headerimg-dlp.jpg" alt="header img disneyland paris">
+      <div class="title">
+        <h1>Disneyland Paris Attracties</h1>
+      </div>
+      <div class="ImgText">
+        <!-- <h2>Weten welke attracties je kunt vinden in Disneyland Paris?</h2> -->
+        <h2 class="shineText" data-heading="Weten welke attracties je kunt vinden in Disneyland Paris?">
+          Weten welke attracties je kunt vinden in Disneyland Paris?
+        </h2>
+      </div>
+      <div class="Text">
+        <h2>Altijd al willen weten welke attracties je kunt vinden in Disneyland Paris?
+          Zoek niet langer verder want hier vind je een duidelijk overzicht.
+        </h2>
+        <p>In een treemap is er een overzicht te vinden van alle gebeiden die je kunt vinden in Disneyland Paris.
+          Hoe groter het blok waar die in staat hoe meer attracties je in dat gedeelte van het park kunt vinden.
+          Klik op een gebied en kom te weten wat je er allemaal kunt vinden.
+          Gesoorteerd op de duur van elke attractie kun je zien welke je vind per gebied.
+        </p>
+      </div>
+
+    </section>
+
+    <!-- -----------------Section 2----------------- -->
+    <section class="snapChild">
+
+      <h2 class="shineText" data-heading="Disneypark Treemap">
+        Disneypark Treemap
       </h2>
-      <p>In een treemap is er een overzicht te vinden van alle gebeiden die je kunt vinden in Disneyland Paris.
-        Hoe groter het blok waar die in staat hoe meer attracties je in dat gedeelte van het park kunt vinden.
-        Klik op een gebied en kom te weten wat je er allemaal kunt vinden.
-        Gesoorteerd op de duur van elke attractie kun je zien welke je vind per gebied.
-      </p>
-    </div>
 
-  </section>
 
-  <!-- -----------------Section 2----------------- -->
-  <section>
+      <!-- -----------------Div die de treemap weergeeft----------------- -->
+      <div id="treemap">
+        <div id="tooltip"></div>
 
-    <h2>Disneypark Treemap</h2>
+        <!-- -----------------SVG waar treemap in wordt gemaakt----------------- -->
+        <svg width="550" height="400">
 
-    <!-- -----------------Div die de treemap weergeeft----------------- -->
-    <div id="treemap">
-      <div id="tooltip"></div>
+          <!-- -----------------Achtergrond images voor treemap ----------------- -->
+          <!-- Bron afbeeldingen: https://www.disneylandparis.com/nl-nl/bestemmingen/ -->
+          <pattern id="imgGebieden" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/disneylandparis-achtergrond.jpg" class="svgImgWidthHeight" />
+          </pattern>
 
-      <!-- -----------------SVG waar treemap in wordt gemaakt----------------- -->
-      <svg width="550" height="400">
-
-        <!-- -----------------Achtergrond images voor treemap ----------------- -->
-        <!-- Bron afbeeldingen: https://www.disneylandparis.com/nl-nl/bestemmingen/ -->
-        <pattern id="imgGebieden" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/disneylandparis-achtergrond.jpg" class="svgImgWidthHeight" />
-        </pattern>
-
-        <pattern id="adventureland" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-adventureland.jpg" class="svgImgWidthHeight" />
-        </pattern>
-        <pattern id="avengerscampus" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-avengers.jpg" class="svgImgWidthHeight" />
-        </pattern>
-        <pattern id="productioncourtyard" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-courtyard.jpg" class="svgImgWidthHeight" />
-        </pattern>
-        <pattern id="discoveryland" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-discoveryland.jpg" class="svgImgWidthHeight" />
-        </pattern>
-        <pattern id="fantasyland" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-fantasyland.jpg" class="svgImgWidthHeight" />
-        </pattern>
-        <pattern id="frontierland" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-frontierland.jpg" class="svgImgWidthHeight" />
-        </pattern>
-        <pattern id="mainstreetu.s.a." patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-mainstreet.jpg" class="svgImgWidthHeight" />
-        </pattern>
-        <pattern id="toonstudio" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-toonstudio.jpg" class="svgImgWidthHeight" />
-        </pattern>
-        <pattern id="worldsofpixar" patternUnits="userSpaceOnUse" width="550" height="400">
-          <image href="images/dlp-worldofpixar.JPG" class="svgImgWidthHeight" />
-        </pattern>
-      </svg>
-    </div>
-
-    <!-- -----------------Div die informatie Attracties weergeeft----------------- -->
-    <div class="infoBlock">
-      <h2 id="attractieNaam">Hoe het werkt</h2>
-      <div id="attractieInfo">
-        <p>Hiernaast zie je een treemap die alle gebieden van Disneyland Paris bevat. </p>
-        <p>Klik om erachter te komen welke attracties je kunt vinden in elk gebied. </p>
-        <p>Wil je meer weten van de attractie zelf, dan kun je ook daarop klikken.</p>
+          <pattern id="adventureland" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-adventureland.jpg" class="svgImgWidthHeight" />
+          </pattern>
+          <pattern id="avengerscampus" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-avengers.jpg" class="svgImgWidthHeight" />
+          </pattern>
+          <pattern id="productioncourtyard" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-courtyard.jpg" class="svgImgWidthHeight" />
+          </pattern>
+          <pattern id="discoveryland" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-discoveryland.jpg" class="svgImgWidthHeight" />
+          </pattern>
+          <pattern id="fantasyland" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-fantasyland.jpg" class="svgImgWidthHeight" />
+          </pattern>
+          <pattern id="frontierland" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-frontierland.jpg" class="svgImgWidthHeight" />
+          </pattern>
+          <pattern id="mainstreetu.s.a." patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-mainstreet.jpg" class="svgImgWidthHeight" />
+          </pattern>
+          <pattern id="toonstudio" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-toonstudio.jpg" class="svgImgWidthHeight" />
+          </pattern>
+          <pattern id="worldsofpixar" patternUnits="userSpaceOnUse" width="550" height="400">
+            <image href="images/dlp-worldofpixar.JPG" class="svgImgWidthHeight" />
+          </pattern>
+        </svg>
       </div>
-      <div id="buttonTreemap">
-        <h3>Terug</h3>
+
+      <!-- -----------------Div die informatie Attracties weergeeft----------------- -->
+      <div class="infoBlock">
+        <h2 id="attractieNaam">Hoe het werkt</h2>
+        <div id="attractieInfo">
+          <p>Hiernaast zie je een treemap die alle gebieden van Disneyland Paris bevat. </p>
+          <p>Klik om erachter te komen welke attracties je kunt vinden in elk gebied. </p>
+          <p>Wil je meer weten van de attractie zelf, dan kun je ook daarop klikken.</p>
+        </div>
+        <div id="buttonTreemap">
+          <h3>Terug</h3>
+        </div>
       </div>
-    </div>
 
-  </section>
+    </section>
 
-
+  </div>
+  
   <!-- -----------------Script die verwijst naar main.js----------------- -->
   <script type="module" src="./scripts/main.js"></script>
 </body>
