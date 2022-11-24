@@ -35,7 +35,7 @@ body {
 .snapContainer {
   scroll-behavior: smooth;
   overflow: auto;
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   height: 100vh;
 }
 
@@ -156,6 +156,10 @@ section:first-of-type .ImgText h2::before {
 section:first-of-type .Text {
   max-width: 60em;
   padding: 0em 5em;
+}
+
+section:first-of-type .Text h2 {
+  padding: 0.5em 0em;
 }
 
 /* Section 2 */
