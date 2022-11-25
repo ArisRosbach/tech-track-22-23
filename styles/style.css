@@ -20,6 +20,14 @@
   --basic-black: #000000;
 }
 
+
+/* @media only screen and (max-width: 40em) {
+  svg{
+    width:250px; 
+    height:200px; 
+  }
+ } */
+
 /* Body */
 /* ******************************************************************** */
 /* ******************************************************************** */
@@ -112,6 +120,13 @@ section:first-of-type img {
   margin-bottom: 5em;
 }
 
+/* Zodra pagina maximaal 40em breed is */
+@media (max-width:40em) {
+  section:first-of-type img {
+    height: 18em;
+  }
+}
+
 /* Section 1 titel */
 /* ******************************************* */
 section:first-of-type .title {
@@ -130,7 +145,20 @@ section:first-of-type .title h1 {
   width: 100%;
 }
 
-/* Section 1 image */
+/* Zodra pagina maximaal 40em breed is */
+@media (max-width:40em) {
+  section:first-of-type .title {
+    top: 14em;
+    padding: 2em;
+    margin: 0em 2em;
+  }
+
+  section:first-of-type .title h1 {
+    font-size: 1.5em;
+  }
+}
+
+/* Section 1 image tekst */
 /* ******************************************* */
 section:first-of-type .ImgText {
   position: absolute;
@@ -140,6 +168,15 @@ section:first-of-type .ImgText {
   left: 8em;
 }
 
+section:first-of-type .ImgText h2 {
+  font-size: 2.2em;
+  color: var(--main-pink-color);
+}
+
+section:first-of-type .ImgText h2::before {
+  padding: 0em 3em 0em 0em;
+}
+
 /* Zodra pagina maximaal 75em breed is */
 @media (max-width:75em) {
   section:first-of-type .ImgText {
@@ -147,15 +184,15 @@ section:first-of-type .ImgText {
   }
 }
 
-/* Section 1 Image tekst */
-/* ******************************************* */
-section:first-of-type .ImgText h2 {
-  font-size: 2.2em;
-  color: var(--main-pink-color);
-}
+/* Zodra pagina maximaal 40em breed is */
+@media (max-width:40em) {
+  section:first-of-type .ImgText {
+    left: 3em;
+  }
 
-section:first-of-type .ImgText h2::before {
-  width: 17em;
+  section:first-of-type .ImgText h2 {
+    font-size: 1.5em;
+  }
 }
 
 /* Section 1 intro tekst*/
@@ -167,6 +204,17 @@ section:first-of-type .Text {
 
 section:first-of-type .Text h2 {
   padding: 0.5em 0em;
+}
+
+/* Zodra pagina maximaal 40em breed is */
+@media (max-width:40em) {
+  section:first-of-type .Text {
+    padding: 0em 2em;
+  }
+
+  section:first-of-type .Text h2 {
+    font-size: 1.3em;
+  }
 }
 
 /* Section 2 */
@@ -193,6 +241,12 @@ section:nth-of-type(2) h2 {
   }
 }
 
+@media (max-width:40em) {
+  section:nth-of-type(2) h2 {
+    padding: 1em 2em 0em;
+  }
+}
+
 /* Div treemap*/
 /* ******************************************************************** */
 #treemap {
@@ -207,6 +261,13 @@ section:nth-of-type(2) h2 {
 @media (max-width:75em) {
   #treemap {
     margin: 3em 1em;
+  }
+}
+
+@media (max-width:40em) {
+  #treemap {
+    margin: 3em 1em 0em;
+    transform: scale(0.5);
   }
 }
 
@@ -268,13 +329,6 @@ section:nth-of-type(2) h2 {
   box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
 }
 
-/* Zodra pagina maximaal 75em breed is */
-@media (max-width:75em) {
-  .infoBlock {
-    margin: 3em 1em;
-  }
-}
-
 .infoBlock #attractieNaam {
   margin: 0em 0em 1em;
   background-color: var(--main-pink-color);
@@ -291,6 +345,13 @@ section:nth-of-type(2) h2 {
 
 .infoBlock #attractieInfo p {
   padding: 0.5em 0em;
+}
+
+/* Zodra pagina maximaal 75em breed is */
+@media (max-width:75em) {
+  .infoBlock {
+    margin: 3em 1em;
+  }
 }
 
 /* Button voor treemap*/
