@@ -137,7 +137,14 @@ section:first-of-type .ImgText {
   max-width: 40em;
   padding: 0em 5em 0em 0em;
   top: 5em;
-  left: 5em;
+  left: 8em;
+}
+
+/* Zodra pagina maximaal 75em breed is */
+@media (max-width:75em) {
+  section:first-of-type .ImgText {
+    left: 5em;
+  }
 }
 
 /* Section 1 Image tekst */
@@ -175,9 +182,15 @@ section:nth-of-type(2) {
 
 section:nth-of-type(2) h2 {
   width: 100%;
-  padding: 1em 3em 0em;
+  padding: 2em 5em 0em;
   font-size: 2em;
   color: var(--main-purple-color);
+}
+
+@media (max-width:75em) {
+  section:nth-of-type(2) h2 {
+    padding: 2em 3em 0em;
+  }
 }
 
 /* Div treemap*/
@@ -188,6 +201,13 @@ section:nth-of-type(2) h2 {
   background-color: white;
   box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
   border-radius: 1em;
+}
+
+/* Zodra pagina maximaal 75em breed is */
+@media (max-width:75em) {
+  #treemap {
+    margin: 3em 1em;
+  }
 }
 
 /* Tooltip*/
@@ -234,7 +254,7 @@ section:nth-of-type(2) h2 {
   padding-right: 0.3em;
   font-size: 1em;
   font-weight: bold;
-  margin: 0.5em 0em
+  margin: 1em 0em;
 }
 
 /* Div info block*/
@@ -242,10 +262,17 @@ section:nth-of-type(2) h2 {
 .infoBlock {
   width: 18em;
   position: relative;
-  margin: 3em 3em 3em 0em;
+  margin: 3em;
   background: var(--basic-white);
   border-radius: 2em 2em 1em 1em;
   box-shadow: 5px 3px 14px -1px rgb(0 0 0 / 46%);
+}
+
+/* Zodra pagina maximaal 75em breed is */
+@media (max-width:75em) {
+  .infoBlock {
+    margin: 3em 1em;
+  }
 }
 
 .infoBlock #attractieNaam {

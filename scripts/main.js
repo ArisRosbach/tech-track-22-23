@@ -3,6 +3,7 @@ import '../styles/style.css'
 
 // We can use node_modules directely in the browser!
 import * as d3 from 'd3';
+import { style } from 'd3';
 
 
 // Global const genaamd theData
@@ -112,11 +113,14 @@ function makeGraph1(disneyData) {
 			.attr("y", y)
 			.attr("width", w)
 			.attr("height", h)
+			.transition()
+			.duration(500)
 
 			// Styling voor rect element
 			.attr("opacity", 0.5)
 			.style("stroke", "white")
-			.style("stroke-width", 10)
+			.style("stroke-width", "0.5em")
+			
 			.style("fill", "url(#imgGebieden)")
 
 		// Maakt voor elke item een foreignObject aan in de svg gevuld met html
@@ -252,11 +256,13 @@ function update(data) {
 						.attr("y", y)
 						.attr("width", w)
 						.attr("height", h)
+						.transition()
+						.duration(500)
 
 						// Styling voor rect element
 						.attr("opacity", 0.5)
 						.style("stroke", "white")
-						.style("stroke-width", 10)
+						.style("stroke-width", "0.5em")
 						// Returnt url pattern met data zonder spaties
 						// Credits: Laurens
 						.style("fill", (d) => {
@@ -272,7 +278,7 @@ function update(data) {
 			.attr("x", x + 5)
 			.attr("y", y)
 			.attr("width", w - 10)
-			.attr("height", h - 15)
+			.attr("height", h - 5)
 
 			.on("click", (e) => {
 				info(d);
