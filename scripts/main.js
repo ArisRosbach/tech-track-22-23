@@ -387,5 +387,7 @@ function deleteInfo() {
 	attractieNaam.textContent = `Hoe het werkt`
 
 	// Veranderd de HTML terug naar beginstaat
-	attractieInfo.innerHTML = `<p>Hiernaast zie je een treemap die alle gebieden van Disneyland Paris bevat. Klik om meer te weten! </p>`;
+	attractieInfo.innerHTML = `<p>Hiernaast zie je een treemap die alle gebieden van Disneyland Paris bevat.</p>
+	<p>Klik om erachter te komen welke attracties je kunt vinden in elk gebied.</p>
+	<p>Wil je meer weten van de attractie zelf, dan kun je ook daarop klikken.</p>`;
 }
