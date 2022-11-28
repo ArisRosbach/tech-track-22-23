@@ -20,14 +20,6 @@
   --basic-black: #000000;
 }
 
-
-/* @media only screen and (max-width: 40em) {
-  svg{
-    width:250px; 
-    height:200px; 
-  }
- } */
-
 /* Body */
 /* ******************************************************************** */
 /* ******************************************************************** */
@@ -43,7 +35,7 @@ body {
 .snapContainer {
   scroll-behavior: smooth;
   overflow: auto;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
   height: 100vh;
 }
 
@@ -52,6 +44,13 @@ body {
   height: 100vh;
   background-size: cover;
   scroll-snap-align: start;
+}
+
+/* Zodra pagina maximaal 75em breed is */
+@media (max-width:75em) {
+  .snapContainer {
+    scroll-snap-type: y proximity;
+  }
 }
 
 /* Shine animatie Tekst */
@@ -97,7 +96,6 @@ body {
     background-position: 100%;
   }
 }
-
 
 /* Section 1 */
 /* ******************************************************************** */
