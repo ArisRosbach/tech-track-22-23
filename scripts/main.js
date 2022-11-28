@@ -3,7 +3,9 @@ import '../styles/style.css'
 
 // We can use node_modules directely in the browser!
 import * as d3 from 'd3';
-import { style } from 'd3';
+import {
+	style
+} from 'd3';
 
 
 // Global const genaamd theData
@@ -120,7 +122,7 @@ function makeGraph1(disneyData) {
 			.attr("opacity", 0.5)
 			.style("stroke", "white")
 			.style("stroke-width", "0.5em")
-			
+
 			.style("fill", "url(#imgGebieden)")
 
 		// Maakt voor elke item een foreignObject aan in de svg gevuld met html
@@ -225,6 +227,8 @@ function update(data) {
 	//-----------------------------------------------------------//
 	data2.forEach((d) => {
 		console.log(d);
+
+		// const parsedData = parseData(d);
 		const hSpace = bounds.right - bounds.left;
 		const vSpace = bounds.bottom - bounds.top;
 		x = bounds.left;
@@ -246,9 +250,7 @@ function update(data) {
 			.append("rect")
 			.join(
 				// Enter: rectangles aanmaken met nieuwe data
-				(enter) => {
-					return enter.append("rect")
-				},
+				enter => enter.append("rect"),
 				// Update: huidige rectangangles aanpassen voor nieuwe data
 				(update) => {
 					return update
@@ -265,7 +267,7 @@ function update(data) {
 						.style("stroke-width", "0.5em")
 						// Returnt url pattern met data zonder spaties
 						// Credits: Laurens
-						.style("fill", (d) => {
+						.style("fill", () => {
 							return `url(#${data[0].replace(/\s+/g, '')})`
 						});
 				}
@@ -280,12 +282,10 @@ function update(data) {
 			.attr("width", w - 10)
 			.attr("height", h - 5)
 
-			.on("click", (e) => {
-				info(d);
-			})
+			.on("click", () => info(d))
 
 			// Tooltip verschijnt wanneer je over nieuwe foreignObject hovert
-			.on("mouseover touchstart", (e) =>
+			.on("mouseover touchstart", () =>
 				d3
 				.select("#tooltip")
 				.transition()
@@ -301,7 +301,7 @@ function update(data) {
 				.style("top", e.pageY + 15 + "px")
 			)
 			// Tooltip verbergen wanneer je van rect af beweegt
-			.on("mouseout", e => d3.select("#tooltip").style("opacity", 0))
+			.on("mouseout", () => d3.select("#tooltip").style("opacity", 0))
 
 			// ForeignObject vullen met nieuwe data
 			.join(
@@ -324,13 +324,13 @@ function update(data) {
 // Functie die button laat verschijnen en werken
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
-function button(data) {
+function button() {
 
 	d3.select("#buttonTreemap")
 		.style("opacity", 1)
 		// Wanneer er wordt geklikt op de button, wordt functie makeGraph1() uitgevoerd
 		// Geeft rollups mee die opnieuw berekend hoeveel attracties er zijn in elk gebied
-		.on("click", (e) => {
+		.on("click", () => {
 			makeGraph1(d3.rollups(theData, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
 			deleteInfo();
 		})
@@ -345,33 +345,24 @@ function info(data) {
 	// Checken of data klopt met het blok die ik heb aangeklikt
 	console.log(data);
 
-	// Array maken van attractie info die overeenkomt met aangeklikte attractie
-	let infoAttracties = [];
-	let aantalRest = 0;
-	// Loopt door items van theData heen, wanneer naam overeenkomt info in de array pushen
-	theData.forEach((item) => {
-		if (item.Naam == data[0]) {
-			infoAttracties.push([item.Naam, item.Park, item.Categorie, item.Type, parseInt(item.Duur), item.Gebied]);
-		} else {
-			aantalRest++;
-		}
+	const infoAttractiesArray = theData.filter(item => { 
+		return item.Naam == data[0];
 	});
 
+	// Bron: https://stackoverflow.com/questions/17781472/how-to-get-a-subset-of-a-javascript-objects-properties
+	const infoAttractieObject = (({ Park, Categorie, Type, Duur, Gebied }) => ({ Park, Categorie, Type, Duur, Gebied }))(infoAttractiesArray[0]);
+
 	// variabelen die elementen uit de html selecteren
-	var attractieInfo = document.getElementById("attractieInfo");
-	var attractieNaam = document.getElementById("attractieNaam");
+	const attractieInfo = document.getElementById("attractieInfo");
+	const attractieNaam = document.getElementById("attractieNaam");
 
 	// Veranderd tekst naar de naam van de aangeklikte attractie
-	attractieNaam.textContent = infoAttracties[0][0]
+	attractieNaam.textContent = infoAttractiesArray[0].Naam
 
-	// Veranderd HTML naar de informatie van de aangeklikte attractie
-	attractieInfo.innerHTML =
-		`<p>Naam: ${infoAttracties[0][0]} </p>
-	<p>Park: ${infoAttracties[0][1]} </p>
-	<p>Categorie: ${infoAttracties[0][2]} </p>
-	<p>Type: ${infoAttracties[0][3]} </p>
-	<p>Duur: ${infoAttracties[0][4]} minuten</p>
-	<p>Gebied: ${infoAttracties[0][5]} </p>`;
+	attractieInfo.innerHTML = '';
+	Object.keys(infoAttractieObject).forEach(item => {
+		attractieInfo.insertAdjacentHTML('beforeend', `<p>${item}: ${infoAttractieObject[item]}</p>`);
+	})
 }
 
 
@@ -380,8 +371,8 @@ function info(data) {
 //-----------------------------------------------------------------------------//
 function deleteInfo() {
 	// variabelen die elementen uit de html selecteren
-	var attractieInfo = document.getElementById("attractieInfo");
-	var attractieNaam = document.getElementById("attractieNaam");
+	const attractieInfo = document.getElementById("attractieInfo");
+	const attractieNaam = document.getElementById("attractieNaam");
 
 	// Veranderd de tekst terug naar beginstaat
 	attractieNaam.textContent = `Hoe het werkt`
