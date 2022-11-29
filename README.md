@@ -1,6 +1,6 @@
 # Tech-track-22-23
 <p align="center">
-  <img width="70%" src="https://github.com/ArisRosbach/tech-track-22-23/blob/main/images/Project-TechTrack.JPG" />
+  <img width="70%" src="https://github.com/ArisRosbach/tech-track-22-23/blob/main/images/EindProduct-TechTrack.png" />
 </p>
 
 ## Over dit project 📊
