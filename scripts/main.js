@@ -1,8 +1,8 @@
 // Our bundler automatically creates styling when imported in the main JS file!
-import '../styles/style.css'
+import "../styles/style.css"
 
 // We can use node_modules directely in the browser!
-import * as d3 from 'd3';
+import * as d3 from "d3";
 
 // Global const genaamd theData
 let theData;
@@ -121,21 +121,15 @@ function makeGraph1(disneyData) {
 				button(d);
 			})
 
-			// Tooltip verschijnt wanneer je over foreignObject hovert 
-			.on("mouseover touchstart", () =>
-				d3.select("#tooltip")
-				.transition()
-				.duration(200)
-				.style("opacity", 1)
-				.text(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
-			)
+			// Tooltip
+			.on("mouseover touchstart", () => tooltipAppear(d))
 			.on("mousemove", (e) => tooltipPosition(e))
 			.on("mouseout", () => tooltipRemove())
 
 			// Voegt tekst toe aan foreignObject met xhtml:p in de foreignOjbect
 			.append("xhtml:p")
 			.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}`)
-			.attr('class', 'textTreemap')
+			.attr("class", "textTreemap")
 	});
 }
 
@@ -222,7 +216,7 @@ function update(data) {
 						// Returnt url pattern met data zonder spaties
 						// Bron: https://stackoverflow.com/questions/5963182/how-to-remove-spaces-from-a-string-using-javascript
 						.style("fill", () => {
-							return `url(#${data[0].replace(/\s+/g, '')})`
+							return `url(#${data[0].replace(/\s+/g, "")})`
 						});
 				}
 			)
@@ -238,13 +232,8 @@ function update(data) {
 
 			.on("click", () => info(d))
 
-			// Tooltip verschijnt wanneer je over nieuwe foreignObject hovert
-			.on("mouseover touchstart", () =>
-				d3.select("#tooltip")
-				.transition()
-				.duration(200)
-				.style("opacity", 1).text(`${d[0]}, Duur: ${d[1]} minuten`)
-			)
+			// Tooltip
+			.on("mouseover touchstart", () => tooltipAppear(d))
 			.on("mousemove", (e) => tooltipPosition(e))
 			.on("mouseout", () => tooltipRemove())
 
@@ -256,7 +245,7 @@ function update(data) {
 				(update) => {
 					return update.append("xhtml:p")
 						.html(`${d[0]}`)
-						.attr('class', 'textTreemap')
+						.attr("class", "textTreemap")
 				}
 			)
 	});
@@ -271,6 +260,23 @@ function clearTreemap() {
 
 	d3.select("svg")
 		.selectAll("foreignObject").remove()
+}
+
+function tooltipAppear(d) {
+	const gebieden = ["fantasyland", "discoveryland", "worlds of pixar", "adventureland", "frontierland", "main street u.s.a.", "avengers campus", "toonstudio", "production courtyard"]
+
+	d3.select("#tooltip")
+	.transition()
+	.duration(200)
+	.style("opacity", 1)
+	.text(() => {
+		console.log(d)
+		if(gebieden.includes(d[0])) {
+			return `${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`
+		} else {
+			return `${d[0]}, Duur: ${d[1]} minuten`
+		}
+	})
 }
 
 // Functie die tooltip op juiste positie zet en laten meebewegen
@@ -329,12 +335,12 @@ function info(data) {
 	attractieNaam.textContent = infoAttractiesArray[0].Naam
 
 	// Veranderd tekst in infoblock met informatie van geklikte attractie
-	attractieInfo.innerHTML = '';
+	attractieInfo.innerHTML = "";
 	Object.keys(infoAttractieObject).forEach(item => {
 		if (item == "Duur") {
-			attractieInfo.insertAdjacentHTML('beforeend', `<p>${item}: ${infoAttractieObject[item]} min</p>`);
+			attractieInfo.insertAdjacentHTML("beforeend", `<p>${item}: ${infoAttractieObject[item]} min</p>`);
 		} else {
-			attractieInfo.insertAdjacentHTML('beforeend', `<p>${item}: ${infoAttractieObject[item]}</p>`);
+			attractieInfo.insertAdjacentHTML("beforeend", `<p>${item}: ${infoAttractieObject[item]}</p>`);
 		}
 	})
 }
