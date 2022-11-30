@@ -23,16 +23,13 @@ function getData() {
 			// theData wordt gevuld met de data van de API
 			theData = data;
 
-
 			// Berekent het aantal attracties in elk Gebied
 			//-----------------------------------------------------------//
 			makeGraph1(d3.rollups(data, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
-
 		});
 }
 
 getData();
-
 
 // Functie die treemap maakt van de gebieden in Disneyland Paris
 //-----------------------------------------------------------------------------//
@@ -50,7 +47,6 @@ function makeGraph1(disneyData) {
 
 	// Treemap berekenen en maken
 	// Bron code: https://stackoverflow.com/questions/67155151/using-d3-js-to-create-a-simple-treemap
-	//-----------------------------------------------------------//
 	//-----------------------------------------------------------//
 
 	// Sorteert de aantal attracties per gebied
@@ -91,7 +87,6 @@ function makeGraph1(disneyData) {
 		}
 		weightLeft -= d[1];
 
-
 		// Maakt voor elke item een rectangle aan in de svg
 		//-----------------------------------------------------------//
 		d3.select("svg")
@@ -107,7 +102,6 @@ function makeGraph1(disneyData) {
 			.attr("opacity", 0.5)
 			.style("stroke", "white")
 			.style("stroke-width", "0.5em")
-
 			.style("fill", "url(#imgGebieden)")
 
 		// Maakt voor elke item een foreignObject aan in de svg gevuld met html
@@ -128,7 +122,6 @@ function makeGraph1(disneyData) {
 			})
 
 			// Tooltip verschijnt wanneer je over foreignObject hovert 
-			// Geeft informatie over aantal attracties van gebied
 			.on("mouseover touchstart", () =>
 				d3.select("#tooltip")
 				.transition()
@@ -139,8 +132,7 @@ function makeGraph1(disneyData) {
 			.on("mousemove", (e) => tooltipPosition(e))
 			.on("mouseout", () => tooltipRemove())
 
-
-			// Voegt tekst toe met xhtml:p in de foreignOjbect
+			// Voegt tekst toe aan foreignObject met xhtml:p in de foreignOjbect
 			.append("xhtml:p")
 			.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}`)
 			.attr('class', 'textTreemap')
@@ -167,9 +159,7 @@ function update(data) {
 		}
 	});
 
-
 	// Nieuwe treemap berekenen en maken
-	//-----------------------------------------------------------//
 	//-----------------------------------------------------------//
 	const data2 = aantalAttracties.sort((a, b) => b[1] - a[1]);
 	const sum = data2.reduce((s, i) => {
@@ -230,7 +220,7 @@ function update(data) {
 						.style("stroke", "white")
 						.style("stroke-width", "0.5em")
 						// Returnt url pattern met data zonder spaties
-						// Credits: Laurens
+						// Bron: https://stackoverflow.com/questions/5963182/how-to-remove-spaces-from-a-string-using-javascript
 						.style("fill", () => {
 							return `url(#${data[0].replace(/\s+/g, '')})`
 						});
@@ -261,9 +251,7 @@ function update(data) {
 			// ForeignObject vullen met nieuwe data
 			.join(
 				// Enter: nieuwe <p></p> aanmaken
-				(enter) => {
-					return enter.append("xhtml:p")
-				},
+				(enter) => { enter.append("xhtml:p")},
 				// Update: huidige <p></p> aanpassen met nieuwe data
 				(update) => {
 					return update.append("xhtml:p")
@@ -272,7 +260,6 @@ function update(data) {
 				}
 			)
 	});
-
 }
 
 // Functie die treemap eerst helemaal leeghaalt
@@ -307,7 +294,6 @@ function tooltipRemove() {
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 function button() {
-
 	d3.select("#buttonTreemap")
 		.style("opacity", 1)
 		// Wanneer er wordt geklikt op de button, wordt functie makeGraph1() uitgevoerd
@@ -316,9 +302,7 @@ function button() {
 			makeGraph1(d3.rollups(theData, v => d3.count(v, d => d.Duur), d => d.Gebied.toLowerCase()));
 			deleteInfo();
 		})
-
 }
-
 
 // Functie die info over geklikte attractie laat verschijnen
 //-----------------------------------------------------------------------------//
@@ -354,7 +338,6 @@ function info(data) {
 		}
 	})
 }
-
 
 // Functie die info over geklikte attractie verwijderd
 //-----------------------------------------------------------------------------//
