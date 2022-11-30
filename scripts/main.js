@@ -43,6 +43,7 @@ function makeGraph1(disneyData) {
 	// Button op niet zichtbaar zetten
 	d3.select("#buttonTreemap")
 		.style("opacity", 0)
+		.style("cursor", "default")
 
 
 	// Treemap berekenen en maken
@@ -302,6 +303,7 @@ function tooltipRemove() {
 function button() {
 	d3.select("#buttonTreemap")
 		.style("opacity", 1)
+		.style("cursor", "pointer")
 
 		// Wanneer er wordt geklikt op de button, wordt functie makeGraph1() uitgevoerd
 		// Geeft rollups mee die opnieuw berekend hoeveel attracties er zijn in elk gebied
