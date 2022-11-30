@@ -215,9 +215,7 @@ function update(data) {
 						.style("stroke-width", "0.5em")
 						// Returnt url pattern met data zonder spaties
 						// Bron: https://stackoverflow.com/questions/5963182/how-to-remove-spaces-from-a-string-using-javascript
-						.style("fill", () => {
-							return `url(#${data[0].replace(/\s+/g, "")})`
-						});
+						.style("fill", (`url(#${data[0].replace(/\s+/g, "")})`))
 				}
 			)
 
@@ -240,7 +238,7 @@ function update(data) {
 			// ForeignObject vullen met nieuwe data
 			.join(
 				// Enter: nieuwe <p></p> aanmaken
-				(enter) => { enter.append("xhtml:p")},
+				(enter) => enter.append("xhtml:p"),
 				// Update: huidige <p></p> aanpassen met nieuwe data
 				(update) => {
 					return update.append("xhtml:p")
@@ -260,23 +258,25 @@ function clearTreemap() {
 
 	d3.select("svg")
 		.selectAll("foreignObject").remove()
+
+	d3.select(".gif")
+		.style("opacity", 0)
 }
 
 function tooltipAppear(d) {
-	const gebieden = ["fantasyland", "discoveryland", "worlds of pixar", "adventureland", "frontierland", "main street u.s.a.", "avengers campus", "toonstudio", "production courtyard"]
+	const gebieden = ["fantasyland", "discoveryland", "worlds of pixar", "adventureland", "frontierland", "main street u.s.a.", "avengers campus", "toon studio", "production courtyard"]
 
 	d3.select("#tooltip")
-	.transition()
-	.duration(200)
-	.style("opacity", 1)
-	.text(() => {
-		console.log(d)
-		if(gebieden.includes(d[0])) {
-			return `${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`
-		} else {
-			return `${d[0]}, Duur: ${d[1]} minuten`
-		}
-	})
+		.transition()
+		.duration(200)
+		.style("opacity", 1)
+		.text(() => {
+			if (gebieden.includes(d[0])) {
+				return `${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`
+			} else {
+				return `${d[0]}, Duur: ${d[1]} minuten`
+			}
+		})
 }
 
 // Functie die tooltip op juiste positie zet en laten meebewegen
@@ -302,6 +302,7 @@ function tooltipRemove() {
 function button() {
 	d3.select("#buttonTreemap")
 		.style("opacity", 1)
+
 		// Wanneer er wordt geklikt op de button, wordt functie makeGraph1() uitgevoerd
 		// Geeft rollups mee die opnieuw berekend hoeveel attracties er zijn in elk gebied
 		.on("click", () => {
@@ -325,7 +326,7 @@ function info(data) {
 	// Bron: https://stackoverflow.com/questions/17781472/how-to-get-a-subset-of-a-javascript-objects-properties
 	// Geeft alleen opgegeven properties van object terug
 	const infoAttractieObject = (({Park, Categorie, Type, Duur, Gebied}) =>
-		({Park, Categorie, Type, Duur, Gebied }))(infoAttractiesArray[0]);
+		({Park, Categorie, Type, Duur, Gebied}))(infoAttractiesArray[0]);
 
 	// Variabelen die elementen uit de html selecteren
 	const attractieInfo = document.getElementById("attractieInfo");
@@ -349,6 +350,8 @@ function info(data) {
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 function deleteInfo() {
+	d3.select(".gif")
+		.style("opacity", 1)
 	// Variabelen die elementen uit de html selecteren
 	const attractieInfo = document.getElementById("attractieInfo");
 	const attractieNaam = document.getElementById("attractieNaam");

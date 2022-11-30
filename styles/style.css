@@ -274,6 +274,7 @@ section:nth-of-type(2) h2 {
   position: absolute;
   background: var(--main-pink-color);
   font-size: 0.8em;
+  max-width: 13em;
   color: black;
   font-family: sans-serif;
   padding: 0.5em;
@@ -342,6 +343,14 @@ section:nth-of-type(2) h2 {
 
 .infoBlock #attractieInfo p {
   padding: 0.5em 0em;
+}
+
+.infoBlock .gif {
+  width: 7em;
+  opacity: 0;
+  position: absolute;
+  bottom: 1em;
+  left: 0em;
 }
 
 /* Zodra pagina maximaal 75em breed is */
