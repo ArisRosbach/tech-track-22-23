@@ -136,14 +136,8 @@ function makeGraph1(disneyData) {
 				.style("opacity", 1)
 				.text(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}: ${d[1]} attracties`)
 			)
-			// Tooltip op juiste positie zeten en laten meebewegen met de muis
-			.on("mousemove", (e) =>
-				d3.select("#tooltip")
-				.style("left", e.pageX + 15 + "px")
-				.style("top", e.pageY + 15 + "px")
-			)
-			// Tooltip verbergen wanneer je van rect af beweegt
-			.on("mouseout", () => d3.select("#tooltip").style("opacity", 0))
+			.on("mousemove", (e) => tooltipPosition(e))
+			.on("mouseout", () => tooltipRemove())
 
 
 			// Voegt tekst toe met xhtml:p in de foreignOjbect
@@ -259,17 +253,10 @@ function update(data) {
 				d3.select("#tooltip")
 				.transition()
 				.duration(200)
-				.style("opacity", 1)
-				.text(`${d[0]}, Duur: ${d[1]} minuten`)
+				.style("opacity", 1).text(`${d[0]}, Duur: ${d[1]} minuten`)
 			)
-			// Tooltip op juiste positie zeten en laten meebewegen met de muis
-			.on("mousemove", (e) =>
-				d3.select("#tooltip")
-				.style("left", e.pageX + 15 + "px")
-				.style("top", e.pageY + 15 + "px")
-			)
-			// Tooltip verbergen wanneer je van rect af beweegt
-			.on("mouseout", () => d3.select("#tooltip").style("opacity", 0))
+			.on("mousemove", (e) => tooltipPosition(e))
+			.on("mouseout", () => tooltipRemove())
 
 			// ForeignObject vullen met nieuwe data
 			.join(
@@ -288,7 +275,6 @@ function update(data) {
 
 }
 
-
 // Functie die treemap eerst helemaal leeghaalt
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
@@ -300,6 +286,22 @@ function clearTreemap() {
 		.selectAll("foreignObject").remove()
 }
 
+// Functie die tooltip op juiste positie zet en laten meebewegen
+//-----------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------//
+function tooltipPosition(e) {
+	d3.select("#tooltip")
+		.style("left", e.pageX + 15 + "px")
+		.style("top", e.pageY + 15 + "px")
+}
+
+// Functie die tooltip verbergt wanneer je van rect af beweegt
+//-----------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------//
+function tooltipRemove() {
+	d3.select("#tooltip")
+		.style("opacity", 0)
+}
 
 // Functie die button laat verschijnen en werken
 //-----------------------------------------------------------------------------//
@@ -332,8 +334,8 @@ function info(data) {
 
 	// Bron: https://stackoverflow.com/questions/17781472/how-to-get-a-subset-of-a-javascript-objects-properties
 	// Geeft alleen opgegeven properties van object terug
-	const infoAttractieObject = (({Park, Categorie, Type, Duur, Gebied}) => 
-	({Park, Categorie, Type, Duur, Gebied}))(infoAttractiesArray[0]);
+	const infoAttractieObject = (({Park, Categorie, Type, Duur, Gebied}) =>
+		({Park, Categorie, Type, Duur, Gebied }))(infoAttractiesArray[0]);
 
 	// Variabelen die elementen uit de html selecteren
 	const attractieInfo = document.getElementById("attractieInfo");
