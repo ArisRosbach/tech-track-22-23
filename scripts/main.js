@@ -1,18 +1,16 @@
-// Our bundler automatically creates styling when imported in the main JS file!
+// Bundler maakt automatisch styling aan wanneer deze wordt geïmporteerd in the main.js
 import "../styles/style.css"
 
-// We can use node_modules directely in the browser!
+// Node_modules kunnen direct in de browser gebruikt worden
 import * as d3 from "d3";
 
 // Global const genaamd theData
 let theData;
 
-// Functie die mijn API data ophaalt
+// Functie die API data ophaalt
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 function getData() {
-	console.log("Grabbing new data...");
-
 	// API ophalen met fetch, omzetten naar een response object
 	// Met .json() dat omzetten in JSON tekst bestand
 	fetch(
@@ -35,8 +33,6 @@ getData();
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 function makeGraph1(disneyData) {
-	// disneyData is de data die gedefinieerd in makeGraph1
-	console.log(disneyData);
 
 	clearTreemap();
 
@@ -115,7 +111,7 @@ function makeGraph1(disneyData) {
 			.attr("width", w - 10)
 			.attr("height", h - 10)
 
-			// Wanneer er wordt geklikt op foreignObject, wordt functie update() uitgevoerd
+			// Wanneer er wordt geklikt op foreignObject, worden functies update() en button() uitgevoerd
 			// Geeft d mee wat staat voor de data die hoort bij geklikte item
 			.on("click", () => {
 				update(d);
@@ -127,19 +123,17 @@ function makeGraph1(disneyData) {
 			.on("mousemove", (e) => tooltipPosition(e))
 			.on("mouseout", () => tooltipRemove())
 
-			// Voegt tekst toe aan foreignObject met xhtml:p in de foreignOjbect
+			// Voegt tekst toe aan foreignObject met xhtml:p
 			.append("xhtml:p")
 			.html(`${d[0].charAt(0).toUpperCase() + d[0].slice(1).toLowerCase()}`)
 			.attr("class", "textTreemap")
 	});
 }
 
-// Functie die nieuwe treemap op basis van de data van geklikt item
+// Functie die nieuwe treemap maakt op basis van data van geklikt item
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 function update(data) {
-	// Checken of data klopt met het blok die ik heb aangeklikt
-	console.log(data);
 
 	clearTreemap();
 
@@ -214,6 +208,7 @@ function update(data) {
 						.attr("opacity", 0.5)
 						.style("stroke", "white")
 						.style("stroke-width", "0.5em")
+
 						// Returnt url pattern met data zonder spaties
 						// Bron: https://stackoverflow.com/questions/5963182/how-to-remove-spaces-from-a-string-using-javascript
 						.style("fill", (`url(#${data[0].replace(/\s+/g, "")})`))
@@ -264,6 +259,9 @@ function clearTreemap() {
 		.style("opacity", 0)
 }
 
+// Functie die tooltip laat verschijnen en juiste tekst weergeeft
+//-----------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------//
 function tooltipAppear(d) {
 	const gebieden = ["fantasyland", "discoveryland", "worlds of pixar", "adventureland", "frontierland", "main street u.s.a.", "avengers campus", "toon studio", "production courtyard"]
 
@@ -280,7 +278,7 @@ function tooltipAppear(d) {
 		})
 }
 
-// Functie die tooltip op juiste positie zet en laten meebewegen
+// Functie die tooltip op juiste positie zet en laat meebewegen
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 function tooltipPosition(e) {
@@ -317,9 +315,6 @@ function button() {
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 function info(data) {
-	// Checken of data klopt met het blok die ik heb aangeklikt
-	console.log(data);
-
 	// Filter maakt een kopie van array met alleen item die overeen komt met data[0]
 	const infoAttractiesArray = theData.filter(item => {
 		return item.Naam == data[0];
@@ -362,7 +357,7 @@ function deleteInfo() {
 	attractieNaam.textContent = `Hoe het werkt`
 
 	// Veranderd de HTML terug naar beginstaat
-	attractieInfo.innerHTML = `<p>Hiernaast zie je een treemap die alle gebieden van Disneyland Paris bevat.</p>
-	<p>Klik om erachter te komen welke attracties je kunt vinden in elk gebied.</p>
-	<p>Wil je meer weten van de attractie zelf, dan kun je ook daarop klikken.</p>`;
+	attractieInfo.innerHTML = `<p>Hiernaast zie je een treemap die alle gebieden van Disneyland Paris bevat. </p>
+	<p>Klik om erachter te komen welke attracties je kunt vinden in elk gebied. </p>
+	<p>Wil je meer weten van de attractie zelf, dan kun je ook daarop klikken. </p>`;
 }
