@@ -32,20 +32,19 @@ body {
 /* Scroll-Snap */
 /* ******************************************* */
 .snapContainer {
-  scroll-behavior: smooth;
   overflow: auto;
   scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
   height: 100vh;
 }
 
 .snapChild {
   width: 100%;
-  /* height: 100vh; */
   background-size: cover;
   scroll-snap-align: start;
 }
 
-/* Zodra pagina maximaal 75em breed is */
+/* Wanneer pagina 75em breed is of kleiner */
 @media (max-width:75em) {
   .snapContainer {
     scroll-snap-type: y proximity;
@@ -62,7 +61,6 @@ body {
 .shineText::before {
   content: attr(data-heading);
   position: absolute;
-
   background: linear-gradient(45deg,
       rgba(255, 255, 255, 0) 45%,
       rgba(255, 255, 255, 0.8) 50%,
@@ -117,7 +115,7 @@ section:first-of-type img {
   margin-bottom: 5em;
 }
 
-/* Zodra pagina maximaal 40em breed is */
+/* Wanneer pagina 40em breed is of kleiner */
 @media (max-width:40em) {
   section:first-of-type img {
     height: 18em;
@@ -142,7 +140,7 @@ section:first-of-type .title h1 {
   width: 100%;
 }
 
-/* Zodra pagina maximaal 40em breed is */
+/* Wanneer pagina 40em breed is of kleiner */
 @media (max-width:40em) {
   section:first-of-type .title {
     top: 14em;
@@ -155,7 +153,7 @@ section:first-of-type .title h1 {
   }
 }
 
-/* Section 1 image tekst */
+/* Section 1 tekst over img */
 /* ******************************************* */
 section:first-of-type .ImgText {
   position: absolute;
@@ -174,14 +172,14 @@ section:first-of-type .ImgText h2::before {
   padding: 0em 3em 0em 0em;
 }
 
-/* Zodra pagina maximaal 75em breed is */
+/* Wanneer pagina 75em breed is of kleiner */
 @media (max-width:75em) {
   section:first-of-type .ImgText {
     left: 5em;
   }
 }
 
-/* Zodra pagina maximaal 40em breed is */
+/* Wanneer pagina 40em breed is of kleiner */
 @media (max-width:40em) {
   section:first-of-type .ImgText {
     left: 3em;
@@ -203,7 +201,7 @@ section:first-of-type .Text h2 {
   padding: 0.5em 0em;
 }
 
-/* Zodra pagina maximaal 40em breed is */
+/* Wanneer pagina 40em breed is of kleiner */
 @media (max-width:40em) {
   section:first-of-type .Text {
     padding: 0em 2em;
@@ -232,12 +230,14 @@ section:nth-of-type(2) h2 {
   color: var(--main-purple-color);
 }
 
+/* Wanneer pagina 75em breed is of kleiner */
 @media (max-width:75em) {
   section:nth-of-type(2) h2 {
     padding: 2em 3em 0em;
   }
 }
 
+/* Wanneer pagina 40em breed is of kleiner */
 @media (max-width:40em) {
   section:nth-of-type(2) h2 {
     padding: 1em 2em 0em;
@@ -254,13 +254,14 @@ section:nth-of-type(2) h2 {
   border-radius: 1em;
 }
 
-/* Zodra pagina maximaal 75em breed is */
+/* Wanneer pagina 75em breed is of kleiner */
 @media (max-width:75em) {
   #treemap {
     margin: 3em 1em;
   }
 }
 
+/* Wanneer pagina 40em breed is of kleiner */
 @media (max-width:40em) {
   #treemap {
     margin: 3em 1em 0em;
@@ -291,7 +292,7 @@ section:nth-of-type(2) h2 {
   background-color: var(--basic-white);
 }
 
-/* Class width en height pattern image*/
+/* Class width en height voor pattern image*/
 /* ******************************************* */
 .svgImgWidthHeight {
   width: 700px;
@@ -353,7 +354,7 @@ section:nth-of-type(2) h2 {
   left: 0em;
 }
 
-/* Zodra pagina maximaal 75em breed is */
+/* Wanneer pagina 75em breed is of kleiner */
 @media (max-width:75em) {
   .infoBlock {
     margin: 3em 1em;
